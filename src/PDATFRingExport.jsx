@@ -24,6 +24,29 @@ const PALETTE = {
   "risk-ethics-and-assurance": "#ef4444",
 };
 
+const TEXT_COLORS = {
+  dark: "#212429",
+  light: "#f8fafc",
+};
+
+// Lighten a given hex color towards white by amt (0..1)
+function lighten(hex, amt = 0.3) {
+  let c = hex?.replace("#", "") || "64748b";
+  if (c.length === 3) c = c.split("").map((ch) => ch + ch).join("");
+  if (!/^[0-9a-f]{6}$/i.test(c)) return hex || "#94a3b8";
+  const num = parseInt(c, 16);
+  let r = (num >> 16) & 255;
+  let g = (num >> 8) & 255;
+  let b = num & 255;
+  const clamp = (value) => Math.min(255, Math.max(0, Math.round(value)));
+  const ratio = Math.min(1, Math.max(0, amt));
+  r = clamp(r + (255 - r) * ratio);
+  g = clamp(g + (255 - g) * ratio);
+  b = clamp(b + (255 - b) * ratio);
+  const toHex = (value) => value.toString(16).padStart(2, "0");
+  return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+}
+
 // Optional manual overrides for tricky inner theme labels
 const INNER_LABEL_LINE_OVERRIDES = {
   "procurement-and-commercial-models": ({ themeOrder, showNumbers }) => {
@@ -107,6 +130,7 @@ const PDATFRingExport = forwardRef(function PDATFRingExportComponent(props, ref)
     showNumbers = false,
   } = props;
   const data = useMemo(() => {
+    const isMonochrome = variant === "C";
     const themesOrdered = orderedThemes(barrierThemes);
     const themeIds = themesOrdered.map((t) => t.id);
     const byTheme = groupBarriersByTheme(barriers, themeIds);
@@ -123,6 +147,8 @@ const PDATFRingExport = forwardRef(function PDATFRingExportComponent(props, ref)
 
     for (const [themeOrderIndex, tid] of themeIds.entries()) {
       const blist = byTheme[tid];
+      const baseThemeColor = PALETTE[tid] || "#64748b";
+      const themeFillColor = isMonochrome ? "#111827" : lighten(baseThemeColor, 0.35);
       const themeSpan = perBarrierSpan * blist.length; // inner theme span equals its number of barriers
       const a0T = angle;
       const a1T = angle + themeSpan;
@@ -132,15 +158,18 @@ const PDATFRingExport = forwardRef(function PDATFRingExportComponent(props, ref)
         a0: a0T,
         a1: a1T,
         count: blist.length,
-        color: PALETTE[tid] || "#999",
+        fillColor: themeFillColor,
         themeOrder,
       });
-      let barrierOrder = 0;
-      for (const b of blist) {
-        barrierOrder += 1;
-        const a0 = angle; const a1 = angle + perBarrierSpan;
+      const denom = blist.length > 1 ? (blist.length - 1) : 1;
+      blist.forEach((b, idx) => {
+        const barrierOrder = idx + 1;
+        const a0 = angle;
+        const a1 = angle + perBarrierSpan;
         const c = barrierCounts[b.id] || 0; // still useful for optional counts/tooltip
         const mid = midAngle(a0, a1);
+        const shade = Math.max(0, Math.min(1, 0.6 - (idx / denom) * 0.32));
+        const barrierFillColor = isMonochrome ? "#111827" : lighten(baseThemeColor, shade);
         outerSegments.push({
           barrierId: b.id,
           themeId: tid,
@@ -148,7 +177,7 @@ const PDATFRingExport = forwardRef(function PDATFRingExportComponent(props, ref)
           a1,
           count: c,
           name: b.name,
-          color: PALETTE[tid] || "#999",
+          fillColor: barrierFillColor,
           tA0: a0T,
           tA1: a1T,
           themeOrder,
@@ -157,7 +186,7 @@ const PDATFRingExport = forwardRef(function PDATFRingExportComponent(props, ref)
           baseFlip: shouldFlipAngle(mid),
         });
         angle += perBarrierSpan;
-      }
+      });
     }
 
     const themeOrientationOverride = new Map();
@@ -182,12 +211,14 @@ const PDATFRingExport = forwardRef(function PDATFRingExportComponent(props, ref)
 
   // Radii scale dynamically with the smaller canvas dimension so the ring stays square-friendly.
   const size = Math.min(W, H);
-  const ringMargin = size * 0.015;                  // keep a bit of breathing room for strokes
   const outerThickness = size * 0.25;               // preserves original visual proportions
   const innerThickness = size * 0.105;
   const interRingGap = size * 0.024;
-
-  const outerR1 = Math.max(size / 2 - ringMargin, 0);
+  const marginPx = 5;                                // keep only 5px border around ring
+  const stretchSafe = Math.max(ellipticalStretch, 1e-6);
+  const horizontalLimit = (W / 2) - marginPx;
+  const verticalLimit = ((H / 2) - marginPx) / stretchSafe;
+  const outerR1 = Math.max(0, Math.min(horizontalLimit, verticalLimit));
   const outerR0 = Math.max(outerR1 - outerThickness, 0);
   const innerR1 = Math.max(outerR0 - interRingGap, 0);
   const innerR0 = Math.max(innerR1 - innerThickness, 0);
@@ -378,8 +409,8 @@ const PDATFRingExport = forwardRef(function PDATFRingExportComponent(props, ref)
         <path
           key={i}
           d={ellipticalWedgePath(cx, cy, innerR0, innerR1, seg.a0, seg.a1, ellipticalStretch)}
-          fill={variant === "C" ? "#111827" : PALETTE[seg.themeId] || "#999"}
-          fillOpacity={0.85}
+          fill={seg.fillColor || PALETTE[seg.themeId] || "#999"}
+          fillOpacity={1}
           opacity={variant === "D" && focusThemeId ? (seg.themeId === focusThemeId ? 1 : 0.2) : 1}
           stroke="#ffffff"
           strokeWidth={3}
@@ -400,7 +431,7 @@ const PDATFRingExport = forwardRef(function PDATFRingExportComponent(props, ref)
               key={`tl-${i}-${lineIdx}`}
               fontFamily="Inter, Arial, sans-serif"
               fontSize={layout.fontSize}
-              fill="#111827"
+              fill={TEXT_COLORS.dark}
               pointerEvents="none"
             >
               <textPath href={`#${idInner(i, pathIdx)}`} startOffset="50%" textAnchor="middle">
@@ -416,8 +447,8 @@ const PDATFRingExport = forwardRef(function PDATFRingExportComponent(props, ref)
         <path
           key={`o-${i}`}
           d={ellipticalWedgePath(cx, cy, outerR0, outerR1, seg.a0, seg.a1, ellipticalStretch)}
-          fill={variant === "C" ? "#111827" : PALETTE[seg.themeId] || "#999"}
-          fillOpacity={0.85}
+          fill={seg.fillColor || PALETTE[seg.themeId] || "#999"}
+          fillOpacity={1}
           opacity={variant === "D" && focusThemeId ? (seg.themeId === focusThemeId ? 1 : 0.2) : 1}
           stroke="#ffffff"
           strokeWidth={2.5}
@@ -498,7 +529,7 @@ const PDATFRingExport = forwardRef(function PDATFRingExportComponent(props, ref)
                       y={dy}
                       fontFamily="Inter, Arial, sans-serif"
                       fontSize={font}
-                      fill="#111827"
+                      fill={TEXT_COLORS.dark}
                       textAnchor="middle"
                       dominantBaseline="middle">
                   {txt}

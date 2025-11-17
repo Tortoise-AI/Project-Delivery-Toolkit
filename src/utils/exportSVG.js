@@ -1,3 +1,5 @@
+const DEFAULT_EXPORT_MARGIN = 5;
+
 function ensureExtension(filename, extension) {
   if (!filename) return extension.startsWith('.') ? `export${extension}` : `export.${extension}`;
   const normalized = filename.trim();
@@ -10,6 +12,47 @@ export function serializeSvgNode(svgNode) {
   if (!svgNode) return "";
   const serializer = new XMLSerializer();
   return serializer.serializeToString(svgNode);
+}
+
+function parseNumericAttr(value, fallback) {
+  if (value == null) return fallback;
+  const num = typeof value === "number" ? value : parseFloat(value);
+  return Number.isFinite(num) ? num : fallback;
+}
+
+function baseSvgDimensions(svgNode) {
+  const viewBox = svgNode?.viewBox?.baseVal;
+  const vbWidth = parseNumericAttr(viewBox?.width, null);
+  const vbHeight = parseNumericAttr(viewBox?.height, null);
+  const width = vbWidth ?? parseNumericAttr(svgNode?.width?.baseVal?.value, null) ?? parseNumericAttr(svgNode?.getAttribute?.("width"), null) ?? svgNode?.clientWidth ?? 2000;
+  const height = vbHeight ?? parseNumericAttr(svgNode?.height?.baseVal?.value, null) ?? parseNumericAttr(svgNode?.getAttribute?.("height"), null) ?? svgNode?.clientHeight ?? 2000;
+  return { width, height };
+}
+
+function prepareSvgForExport(svgNode, marginPx = 0) {
+  const { width: baseWidth, height: baseHeight } = baseSvgDimensions(svgNode);
+  const margin = Math.max(0, Number.isFinite(marginPx) ? marginPx : 0);
+  const serializeOriginal = () => ({ svgString: serializeSvgNode(svgNode), width: baseWidth, height: baseHeight });
+  if (!margin || typeof svgNode?.getBBox !== "function") {
+    return serializeOriginal();
+  }
+  try {
+    const bbox = svgNode.getBBox();
+    if (!bbox || !Number.isFinite(bbox.width) || !Number.isFinite(bbox.height)) {
+      return serializeOriginal();
+    }
+    const w = Math.max(1, bbox.width + margin * 2);
+    const h = Math.max(1, bbox.height + margin * 2);
+    const x = bbox.x - margin;
+    const y = bbox.y - margin;
+    const clone = svgNode.cloneNode(true);
+    clone.setAttribute("viewBox", `${x} ${y} ${w} ${h}`);
+    clone.setAttribute("width", w);
+    clone.setAttribute("height", h);
+    return { svgString: serializeSvgNode(clone), width: w, height: h };
+  } catch (err) {
+    return serializeOriginal();
+  }
 }
 
 function downloadBlob(blob, filename) {
@@ -25,8 +68,8 @@ function downloadBlob(blob, filename) {
 
 export function downloadCurrentSvg(svgNode, filename = "pdatf_ring.svg") {
   if (!svgNode) return;
-  const svgStr = serializeSvgNode(svgNode);
-  const blob = new Blob([svgStr], { type: "image/svg+xml;charset=utf-8" });
+  const { svgString } = prepareSvgForExport(svgNode, DEFAULT_EXPORT_MARGIN);
+  const blob = new Blob([svgString], { type: "image/svg+xml;charset=utf-8" });
   downloadBlob(blob, ensureExtension(filename, ".svg"));
 }
 
@@ -43,14 +86,14 @@ export async function exportRaster(svgNode, {
   if (!svgNode) return;
   const fmt = (format || "png").toLowerCase();
   const rasterExt = fmt === "jpeg" ? ".jpg" : fmt === "jpg" ? ".jpg" : ".png";
-  const svgStr = serializeSvgNode(svgNode);
-  const blob = new Blob([svgStr], { type: "image/svg+xml;charset=utf-8" });
+  const { svgString, width: contentWidth, height: contentHeight } = prepareSvgForExport(svgNode, DEFAULT_EXPORT_MARGIN);
+  const blob = new Blob([svgString], { type: "image/svg+xml;charset=utf-8" });
   const url = URL.createObjectURL(blob);
 
   try {
     const img = new Image();
-    const width = svgNode.viewBox?.baseVal?.width || svgNode.width?.baseVal?.value || svgNode.clientWidth || 2000;
-    const height = svgNode.viewBox?.baseVal?.height || svgNode.height?.baseVal?.value || svgNode.clientHeight || 2000;
+    const width = contentWidth;
+    const height = contentHeight;
 
     const canvas = document.createElement("canvas");
     canvas.width = Math.round(width * scale);
