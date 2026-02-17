@@ -18,9 +18,9 @@ const RAD = Math.PI / 180;
 // --- Memoized Resource Item Component ---
 const ResourceItem = React.memo(({ resource, BARRIERS, THEME_COLORS, lighten }) => {
   return (
-    <article className="bg-white border border-slate-200 rounded-3xl shadow-md/10 p-4 mb-3">
-      <h3 className="font-medium leading-snug">{resource.title}</h3>
-      <p className="text-xs text-slate-600 mt-1 line-clamp-3">{resource.description}</p>
+    <article className="bg-white border border-slate-200 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-tortoise p-6 mb-3">
+      <h3 className="font-semibold leading-snug text-secondary">{resource.title}</h3>
+      <p className="text-xs text-secondary/80 mt-1 line-clamp-3">{resource.description}</p>
       <div className="mt-2 flex flex-wrap gap-1 text-xs">
         {(resource.personas || []).map((p) => <span key={p} className="inline-flex items-center rounded-full px-2.5 py-0.5 bg-slate-100 text-slate-700">{p}</span>)}
       </div>
@@ -36,7 +36,7 @@ const ResourceItem = React.memo(({ resource, BARRIERS, THEME_COLORS, lighten }) 
           );
         })}
       </div>
-      <a className="mt-3 inline-flex text-sm rounded-md px-3 py-1.5 bg-slate-900 text-white hover:bg-slate-800" href={resource.url} target="_blank" rel="noreferrer">
+      <a className="mt-3 inline-flex text-sm font-medium rounded-lg px-6 py-3 bg-primary text-white hover:scale-[1.02] active:scale-[0.98] transition-transform duration-tortoise" href={resource.url} target="_blank" rel="noreferrer">
         Open resource
       </a>
     </article>
@@ -44,14 +44,14 @@ const ResourceItem = React.memo(({ resource, BARRIERS, THEME_COLORS, lighten }) 
 });
 ResourceItem.displayName = 'ResourceItem';
 
-// --- Branding palette (tweak to match PDATF site) ---
+// --- Branding palette (aligned with Tortoise style guide) ---
 const THEME_COLORS = {
-  "leadership-and-alignment": "#2563eb", // blue-600
-  "data-pooling-and-interoperability": "#06b6d4", // cyan-500
-  "digital-and-tech-constraints": "#7c3aed", // violet-600
-  "skill-and-culture-gaps": "#16a34a", // green-600
-  "procurement-and-commercial-models": "#f59e0b", // amber-500
-  "risk-ethics-and-assurance": "#ef4444", // red-500
+  "leadership-and-alignment": "#7C3AED", // Violet (governance & strategy)
+  "data-pooling-and-interoperability": "#0EA5E9", // Sky (connectivity & sharing)
+  "digital-and-tech-constraints": "#334155", // Slate (technical & infrastructure)
+  "skill-and-culture-gaps": "#10B981", // Green (growth & development)
+  "procurement-and-commercial-models": "#F59E0B", // Amber (process & caution)
+  "risk-ethics-and-assurance": "#D946EF", // Magenta (critical & important)
 };
 
 
@@ -532,9 +532,9 @@ export default function App() {
   return (
     <div className="min-h-screen overflow-x-hidden">
       {/* Small header with just title */}
-      <header ref={headerRef} className="sticky top-0 z-50 bg-slate-900/95 backdrop-blur text-white py-2 border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <h1 className="text-2xl md:text-3xl font-semibold tracking-tight">PDATF Barrier Toolkit</h1>
+      <header ref={headerRef} className="sticky top-0 z-50 bg-primary/95 backdrop-blur text-white py-3 border-b border-white/10 shadow-lg">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight">Toolkit</h1>
         </div>
       </header>
 
@@ -544,19 +544,19 @@ export default function App() {
         style={mainStyle}
       >
         {/* Filters card (search + personas) spans above ring */}
-        <section className="lg:col-span-8 lg:row-start-1 bg-white border border-slate-200 rounded-3xl shadow-md/10 p-2">
-          <div className="flex flex-col items-center gap-3">
+        <section className="lg:col-span-8 lg:row-start-1 bg-white border border-slate-200 rounded-xl shadow-lg p-6">
+          <div className="flex flex-col items-center gap-4">
             <div className="w-full md:w-3/4">
               <div className="relative">
-                <svg aria-hidden="true" viewBox="0 0 24 24" className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400"><path fill="currentColor" d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16a6.471 6.471 0 0 0 4.23-1.57l.27.28v.79L20 21.5 21.5 20 15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                <svg aria-hidden="true" viewBox="0 0 24 24" className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-secondary/40"><path fill="currentColor" d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16a6.471 6.471 0 0 0 4.23-1.57l.27.28v.79L20 21.5 21.5 20 15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
                 <input
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder="Search title, description, tags…"
-                  className="w-full rounded-full border border-slate-200 bg-white pl-9 pr-24 py-2.5 text-sm placeholder-slate-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-200"
+                  className="w-full rounded-lg border-2 border-secondary/20 bg-white pl-11 pr-28 py-3 text-sm placeholder-secondary/40 shadow-sm focus:outline-none focus:border-primary/20 focus:ring-2 focus:ring-primary/20 transition-all duration-tortoise"
                 />
                 <button
-                  className="absolute right-1.5 top-1/2 -translate-y-1/2 inline-flex items-center rounded-full bg-slate-900 text-white hover:bg-slate-800 px-4 py-1.5 text-xs"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 inline-flex items-center font-medium rounded-lg bg-secondary text-white hover:scale-[1.02] active:scale-[0.98] transition-transform duration-tortoise px-4 py-2 text-xs"
                   onClick={clearAll}
                 >
                   Clear
@@ -568,10 +568,10 @@ export default function App() {
                 <button
                   key={p}
                   onClick={() => togglePersona(p)}
-                  className={`inline-flex items-center gap-1 rounded-full border px-3 py-1 text-xs ${
+                  className={`inline-flex items-center gap-1 font-medium rounded-lg border-2 px-4 py-2 text-xs transition-all duration-tortoise hover:scale-[1.02] active:scale-[0.98] ${
                     selectedPersonas.includes(p)
-                      ? "bg-indigo-600 border-indigo-600 text-white"
-                      : "bg-white border-slate-300"
+                      ? "bg-primary border-primary text-white"
+                      : "bg-white border-secondary/20 text-secondary hover:border-primary/40"
                   }`}
                 >
                   {p}
@@ -582,15 +582,15 @@ export default function App() {
         </section>
 
         {/* Center: ring */}
-        <section className="lg:col-span-8 lg:row-start-2 bg-white border border-slate-200 rounded-3xl shadow-md/10 p-2 pb-0 h-[44vh] sm:h-[48vh] lg:h-full min-h-0 flex flex-col">
-          <div className="flex items-center justify-between mb-2 text-xs text-slate-600 h-5">
+        <section className="lg:col-span-8 lg:row-start-2 bg-white border border-slate-200 rounded-xl shadow-lg p-6 pb-0 h-[44vh] sm:h-[48vh] lg:h-full min-h-0 flex flex-col">
+          <div className="flex items-center justify-between mb-3 text-sm text-secondary/80 h-5">
             <div>
               <span className="hidden lg:inline">Click a theme (inner ring) or a barrier (outer ring) to filter.</span>
               <span className="lg:hidden">Tap a theme (inner) or barrier (outer); results are listed below.</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="truncate max-w-[50vw] text-right">
-                {selectedBarrier && <span>Selected: <span className="font-medium">Barrier — {selectedBarrierLabel}</span></span>}
+                {selectedBarrier && <span>Selected: <span className="font-semibold text-primary">Barrier — {selectedBarrierLabel}</span></span>}
               </div>
             </div>
           </div>
@@ -715,10 +715,10 @@ export default function App() {
                       const count = isBarrier ? d.value : (d.displayCount ?? d.value);
                       const themeName = isBarrier ? (THEMES.find(t => t.id === d.themeId)?.name || d.themeId) : d.name;
                       return (
-                        <div style={{ background: 'white', border: '1px solid #e5e7eb', borderRadius: 8, boxShadow: '0 10px 30px rgba(2,6,23,0.12)', padding: '8px 10px' }}>
-                          <div style={{ fontWeight: 600, color: '#0f172a', marginBottom: 4 }}>{d.name}</div>
-                          <div style={{ fontSize: 12, color: '#334155' }}>
-                            {count} resources{isBarrier ? ` • Theme: ${themeName}` : ''}
+                        <div style={{ background: 'white', border: '2px solid rgba(51, 65, 85, 0.1)', borderRadius: 12, boxShadow: '0 10px 40px rgba(217, 70, 239, 0.1), 0 4px 12px rgba(0, 0, 0, 0.05)', padding: '12px 16px' }}>
+                          <div style={{ fontWeight: 600, fontSize: 14, color: '#334155', marginBottom: 4 }}>{d.name}</div>
+                          <div style={{ fontSize: 13, color: 'rgba(51, 65, 85, 0.7)' }}>
+                            <span style={{ fontWeight: 600, color: '#D946EF' }}>{count}</span> resources{isBarrier ? ` • ${themeName}` : ''}
                           </div>
                         </div>
                       );
@@ -734,8 +734,8 @@ export default function App() {
 
         {/* Right: results */}
         <section className="lg:col-span-4 lg:row-span-2 flex min-h-[40vh] lg:min-h-0 lg:h-full">
-          <div className="bg-white border border-slate-200 rounded-3xl shadow-md/10 p-4 w-full flex flex-col h-full min-h-[40vh] lg:min-h-0">
-            <div className="text-sm mb-2 shrink-0 sticky top-0 bg-white z-10 border-b border-slate-100 py-2"><span className="font-medium">{filtered.length}</span> result{filtered.length === 1 ? "" : "s"}</div>
+          <div className="bg-white border border-slate-200 rounded-xl shadow-lg p-6 w-full flex flex-col h-full min-h-[40vh] lg:min-h-0">
+            <div className="text-base mb-3 shrink-0 sticky top-0 bg-white z-10 border-b border-slate-200 pb-3"><span className="font-semibold text-primary">{filtered.length}</span> <span className="text-secondary/80">result{filtered.length === 1 ? "" : "s"}</span></div>
             <div className="flex-1 min-h-0 pr-1 overflow-hidden">
               {filtered.length > 0 ? (
                 // Use virtualization for large lists (>50 items) for optimal performance
@@ -762,7 +762,7 @@ export default function App() {
                   </div>
                 )
               ) : (
-                <div className="bg-white border border-slate-200 rounded-3xl shadow-md/10 p-4 text-xs text-slate-600">
+                <div className="bg-white border border-slate-200 rounded-xl shadow-lg p-6 text-sm text-secondary/80">
                   No resources match your filters. Clear some filters or search terms.
                 </div>
               )}
@@ -772,10 +772,10 @@ export default function App() {
       </main>
 
       {/* Footer with disclaimer link */}
-      <footer className="py-3 px-4 text-center mt-6 lg:mt-2">
+      <footer className="py-6 px-4 text-center mt-6 lg:mt-2">
         <button
           onClick={() => setShowDisclaimer(true)}
-          className="text-xs text-slate-500 hover:text-slate-700 underline"
+          className="text-sm text-secondary/60 hover:text-primary transition-colors duration-tortoise underline underline-offset-4"
         >
           Disclaimer
         </button>
@@ -784,32 +784,32 @@ export default function App() {
       {/* Disclaimer Modal */}
       {showDisclaimer && (
         <div
-          className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-[100]"
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-[100] transition-opacity duration-tortoise"
           onClick={() => setShowDisclaimer(false)}
         >
           <div
-            className="bg-white rounded-2xl shadow-xl max-w-2xl w-full p-6 max-h-[80vh] overflow-y-auto"
+            className="bg-white rounded-xl shadow-2xl max-w-2xl w-full p-8 max-h-[80vh] overflow-y-auto transform transition-transform duration-tortoise"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex justify-between items-start mb-4">
-              <h2 className="text-xl font-semibold text-slate-900">Disclaimer</h2>
+            <div className="flex justify-between items-start mb-6">
+              <h2 className="text-2xl md:text-3xl font-bold text-secondary">Disclaimer</h2>
               <button
                 onClick={() => setShowDisclaimer(false)}
-                className="text-slate-400 hover:text-slate-600 text-2xl leading-none"
+                className="text-secondary/40 hover:text-secondary transition-colors duration-tortoise text-3xl leading-none"
                 aria-label="Close"
               >
                 ×
               </button>
             </div>
-            <div className="text-sm text-slate-700 leading-relaxed space-y-3">
+            <div className="text-base md:text-lg text-secondary/80 leading-relaxed space-y-4">
               <p>
-                This toolkit is provided for general guidance only and does not constitute legal or professional advice. Use of the PDATF Toolkit does not create any legal obligations or guarantees of compliance, approval, or funding. Users are responsible for ensuring their practices meet applicable laws, regulations, and contractual requirements. No liability is accepted for any loss or damage resulting from its use. The content may be updated periodically. Users should refer to the latest version and seek independent advice where needed.
+                This toolkit is provided for general guidance only and does not constitute legal or professional advice. Use of the Toolkit does not create any legal obligations or guarantees of compliance, approval, or funding. Users are responsible for ensuring their practices meet applicable laws, regulations, and contractual requirements. No liability is accepted for any loss or damage resulting from its use. The content may be updated periodically. Users should refer to the latest version and seek independent advice where needed.
               </p>
             </div>
-            <div className="mt-6 text-right">
+            <div className="mt-8 text-right">
               <button
                 onClick={() => setShowDisclaimer(false)}
-                className="px-4 py-2 bg-slate-900 text-white text-sm rounded-lg hover:bg-slate-800"
+                className="font-medium rounded-lg px-6 py-3 bg-primary text-white hover:scale-[1.02] active:scale-[0.98] transition-transform duration-tortoise shadow-lg"
               >
                 Close
               </button>

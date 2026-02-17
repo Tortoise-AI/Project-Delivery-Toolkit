@@ -4,10 +4,40 @@
 
 /* Base reset / layout */
 @layer base {
-  html, body, #root { height: 100%; }
-  body { @apply bg-slate-50 text-slate-900 antialiased; }
-  a { @apply text-slate-900; }
-  button { @apply cursor-pointer; }
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  html, body, #root {
+    height: 100%;
+  }
+
+  body {
+    @apply text-secondary antialiased;
+    background: linear-gradient(135deg, #F8FAFC 0%, #FFFFFF 100%);
+    background-attachment: fixed;
+  }
+
+  a {
+    @apply text-primary transition-colors duration-tortoise;
+  }
+
+  a:hover {
+    @apply opacity-80 underline;
+    text-underline-offset: 4px;
+  }
+
+  button {
+    @apply cursor-pointer transition-all duration-tortoise;
+  }
+
+  *:focus-visible {
+    @apply outline-2 outline-offset-2 outline-primary;
+  }
 }
 
 /* Recharts helpers */
