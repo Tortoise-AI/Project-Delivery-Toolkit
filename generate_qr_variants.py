@@ -5,14 +5,14 @@ import segno
 from PIL import Image, ImageDraw
 import numpy as np
 
-BASE_URL = "https://toolkit.pdataskforce.com/"
+BASE_URL = "https://project-delivery-toolkit.tortoiseai.co.uk/"
 OUTPUT_DIR = Path("qr_codes")
 MODULE_PX = 26
 START_ANGLE_DEG = -135  # align with data viz orientation
 BACKGROUND_COLOR = "#ffffff"
-GAP_COLOR = "#e9f2ff"
-CENTER_FILL = "#f2f7fd"
-BORDER_COLOR = "#1e293b"
+GAP_COLOR = "#f1f5f9"  # Slate 100
+CENTER_FILL = "#f8fafc"  # Slate 50
+BORDER_COLOR = "#334155"  # Slate 700 (secondary color)
 BORDER_WIDTH = 40
 BORDER_RADIUS = 80
 FADE_STRENGTH = 0.6  # 0=original colour, 1=white
@@ -20,32 +20,32 @@ FADE_STRENGTH = 0.6  # 0=original colour, 1=white
 THEMES = [
     {
         "id": "risk-ethics-and-assurance",
-        "color": "#ec6b6f",
+        "color": "#D946EF",  # Magenta
         "label": "risk",
     },
     {
         "id": "leadership-and-alignment",
-        "color": "#90aefc",
+        "color": "#7C3AED",  # Violet
         "label": "leadership",
     },
     {
         "id": "data-pooling-and-interoperability",
-        "color": "#5abfd5",
+        "color": "#0EA5E9",  # Sky
         "label": "data",
     },
     {
         "id": "digital-and-tech-constraints",
-        "color": "#a689f7",
+        "color": "#334155",  # Slate
         "label": "digital",
     },
     {
         "id": "skill-and-culture-gaps",
-        "color": "#72c18b",
+        "color": "#10B981",  # Green
         "label": "skills",
     },
     {
         "id": "procurement-and-commercial-models",
-        "color": "#f2b667",
+        "color": "#F59E0B",  # Amber
         "label": "procurement",
     },
 ]
@@ -179,7 +179,7 @@ def main():
         outer_colors, inner_colors = build_palettes(variant["highlight"])
         ring_art = render_ring_art(size, outer_colors, inner_colors)
         final_img = composite_qr(ring_art, qr_mask)
-        output_path = OUTPUT_DIR / f"pdatf_qr_{variant['slug']}.png"
+        output_path = OUTPUT_DIR / f"toolkit_qr_{variant['slug']}.png"
         final_img.save(output_path)
         print(f"Wrote {output_path}")
 
