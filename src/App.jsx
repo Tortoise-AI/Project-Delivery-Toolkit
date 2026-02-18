@@ -11,6 +11,13 @@ import VirtualizedResourceList from "./components/VirtualizedResourceList";
 import { register as registerServiceWorker } from "./utils/serviceWorkerRegistration";
 
 const PERSONAS = ["Project", "Programme", "Business"];
+const ARMM_LEVELS = [
+  "Experimenting",
+  "Supervised",
+  "Reliable",
+  "Resilient",
+  "Mission-Critical"
+];
 const RAD = Math.PI / 180;
 
 // No need for memoized cell components - we'll render cells inline
@@ -60,6 +67,7 @@ export default function App() {
   const [selectedTheme, setSelectedTheme] = useState(null); // string | null
   const [selectedBarrier, setSelectedBarrier] = useState(null); // string | null (single)
   const [selectedPersonas, setSelectedPersonas] = useState([]);
+  const [armmRange, setArmmRange] = useState([0, 4]); // [min, max]
   const [hoveredLayer, setHoveredLayer] = useState(null); // 'theme' | 'barrier' | null
   const [showDisclaimer, setShowDisclaimer] = useState(false);
   const [isDesktop, setIsDesktop] = useState(() => (typeof window !== 'undefined' ? window.innerWidth >= 1024 : false));
@@ -105,15 +113,17 @@ export default function App() {
     if (params.theme) setSelectedTheme(params.theme);
     if (params.barrier) setSelectedBarrier(params.barrier);
     if (params.personas.length) setSelectedPersonas(params.personas);
+    if (params.armmRange) setArmmRange(params.armmRange);
   }, []);
   useEffect(() => {
     updateBrowserURL({
       search,
       theme: selectedTheme,
       barrier: selectedBarrier,
-      personas: selectedPersonas
+      personas: selectedPersonas,
+      armmRange: armmRange
     });
-  }, [search, selectedTheme, selectedBarrier, selectedPersonas]);
+  }, [search, selectedTheme, selectedBarrier, selectedPersonas, armmRange]);
 
   // Performance monitoring on mount (development only)
   useEffect(() => {
@@ -159,7 +169,7 @@ export default function App() {
     setSelectedTheme(null); // clear theme when picking a barrier
   }, []);
   const togglePersona = React.useCallback((id) => setSelectedPersonas((curr) => (curr.includes(id) ? curr.filter((x) => x !== id) : [...curr, id])), []);
-  const clearAll = React.useCallback(() => { setSearch(""); setSelectedTheme(null); setSelectedBarrier(null); setSelectedPersonas([]); }, []);
+  const clearAll = React.useCallback(() => { setSearch(""); setSelectedTheme(null); setSelectedBarrier(null); setSelectedPersonas([]); setArmmRange([0, 4]); }, []);
 
   // Memoize hover handlers to prevent creating new functions on every render
   const handleMouseEnterTheme = React.useCallback(() => setHoveredLayer('theme'), []);
@@ -170,13 +180,16 @@ export default function App() {
   const THEMES = useMemo(() => [...THEMES_RAW].sort((a, b) => (a.order ?? 999) - (b.order ?? 999)), []);
   const BARRIERS = useMemo(() => BARRIERS_RAW.map(b => ({ ...b, themeId: b.themeId || b.categoryId })), []);
 
-  // Base filter (affects counts & ring): search + personas only - memoize to prevent cascading recalculations
+  // Base filter (affects counts & ring): search + personas + ARMM range - memoize to prevent cascading recalculations
   const baseFilter = React.useCallback((r) => {
     const q = search.trim().toLowerCase();
     const matchesText = !q || r.title.toLowerCase().includes(q) || r.description.toLowerCase().includes(q) || (r.tags || []).some((t) => t.toLowerCase().includes(q));
     const matchesPersonas = !selectedPersonas.length || r.personas.some((p) => selectedPersonas.includes(p));
-    return matchesText && matchesPersonas;
-  }, [search, selectedPersonas]);
+    // Check if resource has any ARMM level within the selected range
+    const [minLevel, maxLevel] = armmRange;
+    const matchesARMM = !r.armm_levels || r.armm_levels.length === 0 || r.armm_levels.some((level) => level >= minLevel && level <= maxLevel);
+    return matchesText && matchesPersonas && matchesARMM;
+  }, [search, selectedPersonas, armmRange]);
 
   // ---- Build aligned data ----
   const barrierValues = useMemo(() => {
@@ -534,7 +547,7 @@ export default function App() {
       {/* Small header with just title */}
       <header ref={headerRef} className="sticky top-0 z-50 bg-primary/95 backdrop-blur text-white py-3 border-b border-white/10 shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight">Toolkit</h1>
+          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight">Project Delivery Toolkit</h1>
         </div>
       </header>
 
@@ -543,10 +556,11 @@ export default function App() {
         className="max-w-7xl mx-auto px-4 py-2 grid lg:grid-cols-12 lg:grid-rows-[auto,1fr] gap-2"
         style={mainStyle}
       >
-        {/* Filters card (search + personas) spans above ring */}
+        {/* Filters card (search + personas + ARMM levels) spans above ring */}
         <section className="lg:col-span-8 lg:row-start-1 bg-white border border-slate-200 rounded-xl shadow-lg p-6">
-          <div className="flex flex-col items-center gap-4">
-            <div className="w-full md:w-3/4">
+          <div className="flex flex-col gap-4">
+            {/* Search bar */}
+            <div className="w-full">
               <div className="relative">
                 <svg aria-hidden="true" viewBox="0 0 24 24" className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-secondary/40"><path fill="currentColor" d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16a6.471 6.471 0 0 0 4.23-1.57l.27.28v.79L20 21.5 21.5 20 15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
                 <input
@@ -563,20 +577,103 @@ export default function App() {
                 </button>
               </div>
             </div>
-            <div className="flex flex-wrap justify-center gap-2">
-              {PERSONAS.map((p) => (
-                <button
-                  key={p}
-                  onClick={() => togglePersona(p)}
-                  className={`inline-flex items-center gap-1 font-medium rounded-lg border-2 px-4 py-2 text-xs transition-all duration-tortoise hover:scale-[1.02] active:scale-[0.98] ${
-                    selectedPersonas.includes(p)
-                      ? "bg-primary border-primary text-white"
-                      : "bg-white border-secondary/20 text-secondary hover:border-primary/40"
-                  }`}
-                >
-                  {p}
-                </button>
-              ))}
+
+            {/* Filter groups side by side */}
+            <div className="grid md:grid-cols-2 gap-4">
+              {/* Persona filter */}
+              <div className="flex flex-col gap-2">
+                <h3 className="text-sm font-semibold text-secondary">Persona</h3>
+                <div className="flex flex-wrap gap-2">
+                  {PERSONAS.map((p) => (
+                    <button
+                      key={p}
+                      onClick={() => togglePersona(p)}
+                      className={`inline-flex items-center gap-1 font-medium rounded-lg border-2 px-4 py-2 text-xs transition-all duration-tortoise hover:scale-[1.02] active:scale-[0.98] ${
+                        selectedPersonas.includes(p)
+                          ? "bg-primary border-primary text-white"
+                          : "bg-white border-secondary/20 text-secondary hover:border-primary/40"
+                      }`}
+                    >
+                      {p}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* ARMM Maturity filter */}
+              <div className="flex flex-col gap-2">
+                <h3 className="text-sm font-semibold text-secondary">ARMM Maturity Range</h3>
+                <div className="px-1">
+                  {/* Range display */}
+                  <div className="flex justify-between items-center mb-2 gap-1">
+                    <span className="text-[10px] font-medium text-primary truncate">
+                      L{armmRange[0]}: {ARMM_LEVELS[armmRange[0]]}
+                    </span>
+                    <span className="text-[10px] text-secondary/60 shrink-0">to</span>
+                    <span className="text-[10px] font-medium text-primary truncate">
+                      L{armmRange[1]}: {ARMM_LEVELS[armmRange[1]]}
+                    </span>
+                  </div>
+
+                  {/* Dual range slider */}
+                  <div className="relative pt-1 pb-5">
+                    {/* Track */}
+                    <div className="absolute top-0.5 left-0 right-0 h-1.5 bg-secondary/10 rounded-full" />
+
+                    {/* Active range highlight */}
+                    <div
+                      className="absolute top-0.5 h-1.5 bg-primary rounded-full transition-all duration-tortoise"
+                      style={{
+                        left: `${(armmRange[0] / 4) * 100}%`,
+                        right: `${100 - (armmRange[1] / 4) * 100}%`
+                      }}
+                    />
+
+                    {/* Min range input */}
+                    <input
+                      type="range"
+                      min="0"
+                      max="4"
+                      step="1"
+                      value={armmRange[0]}
+                      onChange={(e) => {
+                        const newMin = parseInt(e.target.value);
+                        setArmmRange([Math.min(newMin, armmRange[1]), armmRange[1]]);
+                      }}
+                      className="absolute top-0 left-0 w-full h-1.5 appearance-none bg-transparent pointer-events-none [&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-primary [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:shadow-md [&::-webkit-slider-thumb]:transition-transform [&::-webkit-slider-thumb]:duration-tortoise hover:[&::-webkit-slider-thumb]:scale-110 [&::-moz-range-thumb]:pointer-events-auto [&::-moz-range-thumb]:appearance-none [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-white [&::-moz-range-thumb]:border-2 [&::-moz-range-thumb]:border-primary [&::-moz-range-thumb]:cursor-pointer [&::-moz-range-thumb]:shadow-md [&::-moz-range-thumb]:transition-transform [&::-moz-range-thumb]:duration-tortoise hover:[&::-moz-range-thumb]:scale-110"
+                    />
+
+                    {/* Max range input */}
+                    <input
+                      type="range"
+                      min="0"
+                      max="4"
+                      step="1"
+                      value={armmRange[1]}
+                      onChange={(e) => {
+                        const newMax = parseInt(e.target.value);
+                        setArmmRange([armmRange[0], Math.max(newMax, armmRange[0])]);
+                      }}
+                      className="absolute top-0 left-0 w-full h-1.5 appearance-none bg-transparent pointer-events-none [&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-primary [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:shadow-md [&::-webkit-slider-thumb]:transition-transform [&::-webkit-slider-thumb]:duration-tortoise hover:[&::-webkit-slider-thumb]:scale-110 [&::-moz-range-thumb]:pointer-events-auto [&::-moz-range-thumb]:appearance-none [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-white [&::-moz-range-thumb]:border-2 [&::-moz-range-thumb]:border-primary [&::-moz-range-thumb]:cursor-pointer [&::-moz-range-thumb]:shadow-md [&::-moz-range-thumb]:transition-transform [&::-moz-range-thumb]:duration-tortoise hover:[&::-moz-range-thumb]:scale-110"
+                    />
+
+                    {/* Level markers with tooltips */}
+                    <div className="absolute top-4 left-0 right-0 flex justify-between">
+                      {[0, 1, 2, 3, 4].map((level) => (
+                        <div key={level} className="relative group flex flex-col items-center">
+                          <span className="text-[9px] font-medium text-secondary/60">
+                            {level}
+                          </span>
+                          {/* Tooltip on hover */}
+                          <div className="absolute bottom-full mb-1 px-1.5 py-0.5 bg-secondary text-white text-[10px] rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-tortoise pointer-events-none z-10">
+                            {ARMM_LEVELS[level]}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>
