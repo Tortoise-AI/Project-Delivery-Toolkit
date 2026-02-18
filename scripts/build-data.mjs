@@ -39,6 +39,7 @@ const main = async () => {
     barriers: splitPipes(r.barriers),
     barrier_category: r.barrier_theme,   // required field name in app
     tags: splitPipes(r.tags),
+    armm_level: r['ARMM maturity'] || r.armm_level || '',
     publisher: r.publisher || '',
     type: r.type || '',
   }));

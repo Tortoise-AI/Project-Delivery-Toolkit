@@ -24,9 +24,28 @@ const RAD = Math.PI / 180;
 
 // --- Memoized Resource Item Component ---
 const ResourceItem = React.memo(({ resource, BARRIERS, THEME_COLORS, lighten }) => {
+  const armmLevelNames = ["Experimenting", "Supervised", "Reliable", "Resilient", "Mission-Critical"];
+  const armmLevelColors = ["#94a3b8", "#64748b", "#475569", "#334155", "#1e293b"]; // Slate shades from light to dark
+
   return (
     <article className="bg-white border border-slate-200 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-tortoise p-6 mb-3">
-      <h3 className="font-semibold leading-snug text-secondary">{resource.title}</h3>
+      <div className="flex items-start justify-between gap-2">
+        <h3 className="font-semibold leading-snug text-secondary flex-1">{resource.title}</h3>
+        {resource.armm_levels && resource.armm_levels.length > 0 && (
+          <div className="flex gap-1 shrink-0">
+            {resource.armm_levels.map((level) => (
+              <div
+                key={level}
+                className="w-6 h-6 rounded-full flex items-center justify-center text-white text-xs font-semibold shadow-sm"
+                style={{ backgroundColor: armmLevelColors[level] }}
+                title={`ARMM Level ${level}: ${armmLevelNames[level]}`}
+              >
+                {level}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
       <p className="text-xs text-secondary/80 mt-1 line-clamp-3">{resource.description}</p>
       <div className="mt-2 flex flex-wrap gap-1 text-xs">
         {(resource.personas || []).map((p) => <span key={p} className="inline-flex items-center rounded-full px-2.5 py-0.5 bg-slate-100 text-slate-700">{p}</span>)}
@@ -187,7 +206,10 @@ export default function App() {
     const matchesPersonas = !selectedPersonas.length || r.personas.some((p) => selectedPersonas.includes(p));
     // Check if resource has any ARMM level within the selected range
     const [minLevel, maxLevel] = armmRange;
-    const matchesARMM = !r.armm_levels || r.armm_levels.length === 0 || r.armm_levels.some((level) => level >= minLevel && level <= maxLevel);
+    const isDefaultRange = minLevel === 0 && maxLevel === 4;
+    const matchesARMM = isDefaultRange
+      ? true // Show all resources (including those without ARMM data) when range is default
+      : (r.armm_levels && r.armm_levels.length > 0 && r.armm_levels.some((level) => level >= minLevel && level <= maxLevel));
     return matchesText && matchesPersonas && matchesARMM;
   }, [search, selectedPersonas, armmRange]);
 
@@ -504,16 +526,21 @@ export default function App() {
   // Results list filter (honour single-selection)
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
+    const [minLevel, maxLevel] = armmRange;
+    const isDefaultRange = minLevel === 0 && maxLevel === 4;
     const results = DATA_RESOURCES.filter((r) => {
       const matchesText = !q || r.title.toLowerCase().includes(q) || r.description.toLowerCase().includes(q) || (r.tags || []).some((t) => t.toLowerCase().includes(q));
       const matchesPersonas = !selectedPersonas.length || r.personas.some((p) => selectedPersonas.includes(p));
       const matchesTheme = !selectedTheme || r.barrier_category === selectedTheme;
       const matchesBarrier = !selectedBarrier || r.barriers.includes(selectedBarrier);
-      return matchesText && matchesPersonas && matchesTheme && matchesBarrier;
+      const matchesARMM = isDefaultRange
+        ? true
+        : (r.armm_levels && r.armm_levels.length > 0 && r.armm_levels.some((level) => level >= minLevel && level <= maxLevel));
+      return matchesText && matchesPersonas && matchesTheme && matchesBarrier && matchesARMM;
     }).sort((a, b) => (b.date || "").localeCompare(a.date || ""));
     console.log('Filtered results:', results.length, 'selectedBarrier:', selectedBarrier, 'selectedTheme:', selectedTheme);
     return results;
-  }, [DATA_RESOURCES, search, selectedPersonas, selectedTheme, selectedBarrier]);
+  }, [DATA_RESOURCES, search, selectedPersonas, selectedTheme, selectedBarrier, armmRange]);
 
   // Colours - memoize themeFill to prevent recreation
   const themeFill = React.useCallback((themeId, highlighted) => highlighted ? (THEME_COLORS[themeId] || "#334155") : lighten(THEME_COLORS[themeId] || "#94a3b8", 0.35), []);
@@ -638,9 +665,22 @@ export default function App() {
                       value={armmRange[0]}
                       onChange={(e) => {
                         const newMin = parseInt(e.target.value);
-                        setArmmRange([Math.min(newMin, armmRange[1]), armmRange[1]]);
+                        setArmmRange((prev) => {
+                          // When both thumbs are at the same position, allow the min slider to move the max slider
+                          if (prev[0] === prev[1]) {
+                            if (newMin > prev[0]) {
+                              // Dragging right - move the max slider
+                              return [prev[0], newMin];
+                            } else {
+                              // Dragging left - move the min slider
+                              return [newMin, prev[1]];
+                            }
+                          } else {
+                            return [Math.min(newMin, prev[1]), prev[1]];
+                          }
+                        });
                       }}
-                      className="absolute top-0 left-0 w-full h-1.5 appearance-none bg-transparent pointer-events-none [&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-primary [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:shadow-md [&::-webkit-slider-thumb]:transition-transform [&::-webkit-slider-thumb]:duration-tortoise hover:[&::-webkit-slider-thumb]:scale-110 [&::-moz-range-thumb]:pointer-events-auto [&::-moz-range-thumb]:appearance-none [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-white [&::-moz-range-thumb]:border-2 [&::-moz-range-thumb]:border-primary [&::-moz-range-thumb]:cursor-pointer [&::-moz-range-thumb]:shadow-md [&::-moz-range-thumb]:transition-transform [&::-moz-range-thumb]:duration-tortoise hover:[&::-moz-range-thumb]:scale-110"
+                      className="absolute top-0 left-0 w-full h-1.5 appearance-none bg-transparent pointer-events-none z-10 [&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-primary [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:shadow-md [&::-webkit-slider-thumb]:transition-transform [&::-webkit-slider-thumb]:duration-tortoise hover:[&::-webkit-slider-thumb]:scale-110 [&::-moz-range-thumb]:pointer-events-auto [&::-moz-range-thumb]:appearance-none [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-white [&::-moz-range-thumb]:border-2 [&::-moz-range-thumb]:border-primary [&::-moz-range-thumb]:cursor-pointer [&::-moz-range-thumb]:shadow-md [&::-moz-range-thumb]:transition-transform [&::-moz-range-thumb]:duration-tortoise hover:[&::-moz-range-thumb]:scale-110"
                     />
 
                     {/* Max range input */}
@@ -652,12 +692,25 @@ export default function App() {
                       value={armmRange[1]}
                       onChange={(e) => {
                         const newMax = parseInt(e.target.value);
-                        setArmmRange([armmRange[0], Math.max(newMax, armmRange[0])]);
+                        setArmmRange((prev) => {
+                          // When both thumbs are at the same position, allow the max slider to move the min slider
+                          if (prev[0] === prev[1]) {
+                            if (newMax < prev[1]) {
+                              // Dragging left - move the min slider
+                              return [newMax, prev[1]];
+                            } else {
+                              // Dragging right - move the max slider
+                              return [prev[0], newMax];
+                            }
+                          } else {
+                            return [prev[0], Math.max(newMax, prev[0])];
+                          }
+                        });
                       }}
-                      className="absolute top-0 left-0 w-full h-1.5 appearance-none bg-transparent pointer-events-none [&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-primary [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:shadow-md [&::-webkit-slider-thumb]:transition-transform [&::-webkit-slider-thumb]:duration-tortoise hover:[&::-webkit-slider-thumb]:scale-110 [&::-moz-range-thumb]:pointer-events-auto [&::-moz-range-thumb]:appearance-none [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-white [&::-moz-range-thumb]:border-2 [&::-moz-range-thumb]:border-primary [&::-moz-range-thumb]:cursor-pointer [&::-moz-range-thumb]:shadow-md [&::-moz-range-thumb]:transition-transform [&::-moz-range-thumb]:duration-tortoise hover:[&::-moz-range-thumb]:scale-110"
+                      className="absolute top-0 left-0 w-full h-1.5 appearance-none bg-transparent pointer-events-none z-20 [&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-primary [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:shadow-md [&::-webkit-slider-thumb]:transition-transform [&::-webkit-slider-thumb]:duration-tortoise hover:[&::-webkit-slider-thumb]:scale-110 [&::-moz-range-thumb]:pointer-events-auto [&::-moz-range-thumb]:appearance-none [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-white [&::-moz-range-thumb]:border-2 [&::-moz-range-thumb]:border-primary [&::-moz-range-thumb]:cursor-pointer [&::-moz-range-thumb]:shadow-md [&::-moz-range-thumb]:transition-transform [&::-moz-range-thumb]:duration-tortoise hover:[&::-moz-range-thumb]:scale-110"
                     />
 
-                    {/* Level markers with tooltips */}
+                    {/* Level markers */}
                     <div className="absolute top-4 left-0 right-0 flex justify-between">
                       {[0, 1, 2, 3, 4].map((level) => (
                         <div key={level} className="relative group flex flex-col items-center">
