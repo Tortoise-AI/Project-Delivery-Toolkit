@@ -9,12 +9,12 @@ const RAD = Math.PI / 180;
 
 // --- Branding palette (tweak to match PDATF site) ---
 const THEME_COLORS = {
-  "leadership-and-alignment": "#2563eb", // blue-600
-  "data-pooling-and-interoperability": "#06b6d4", // cyan-500
-  "digital-and-tech-constraints": "#7c3aed", // violet-600
-  "skill-and-culture-gaps": "#16a34a", // green-600
-  "procurement-and-commercial-models": "#f59e0b", // amber-500
-  "risk-ethics-and-assurance": "#ef4444", // red-500
+  "leadership-and-alignment": "#7C3AED", // Violet
+  "data-pooling-and-interoperability": "#0EA5E9", // Sky
+  "digital-and-tech-constraints": "#334155", // Slate
+  "skill-and-culture-gaps": "#10B981", // Green
+  "procurement-and-commercial-models": "#F59E0B", // Amber
+  "risk-ethics-and-assurance": "#D946EF", // Magenta
 };
 
 // Lighten a hex colour by amt (0..1 -> lighter)

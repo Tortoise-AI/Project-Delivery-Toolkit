@@ -16,12 +16,12 @@ import resources from "./data/resources.json";
 import { downloadCurrentSvg, exportSvg, exportRaster, serializeSvgNode } from "./utils/exportSVG";
 
 const PALETTE = {
-  "leadership-and-alignment": "#2563eb",
-  "data-pooling-and-interoperability": "#06b6d4",
-  "digital-and-tech-constraints": "#7c3aed",
-  "skill-and-culture-gaps": "#16a34a",
-  "procurement-and-commercial-models": "#f59e0b",
-  "risk-ethics-and-assurance": "#ef4444",
+  "leadership-and-alignment": "#7C3AED",
+  "data-pooling-and-interoperability": "#0EA5E9",
+  "digital-and-tech-constraints": "#334155",
+  "skill-and-culture-gaps": "#10B981",
+  "procurement-and-commercial-models": "#F59E0B",
+  "risk-ethics-and-assurance": "#D946EF",
 };
 
 const TEXT_COLORS = {
