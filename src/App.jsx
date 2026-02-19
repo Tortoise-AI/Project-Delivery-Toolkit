@@ -93,6 +93,8 @@ export default function App() {
 
   // Header ref and dynamic height effect
   const headerRef = React.useRef(null);
+  // Tracks temporary "move the opposite thumb" behavior while dragging from an overlapped state.
+  const armmBridgeModeRef = React.useRef(null);
 
   // Memoize resize handler to avoid creating new function on each render
   const setHdr = React.useCallback(() => {
@@ -189,6 +191,59 @@ export default function App() {
   }, []);
   const togglePersona = React.useCallback((id) => setSelectedPersonas((curr) => (curr.includes(id) ? curr.filter((x) => x !== id) : [...curr, id])), []);
   const clearAll = React.useCallback(() => { setSearch(""); setSelectedTheme(null); setSelectedBarrier(null); setSelectedPersonas([]); setArmmRange([0, 4]); }, []);
+  const clearArmmBridgeMode = React.useCallback(() => {
+    armmBridgeModeRef.current = null;
+  }, []);
+  const handleArmmMinChange = React.useCallback((e) => {
+    const newMin = Number(e.target.value);
+    setArmmRange((prev) => {
+      const [prevMin, prevMax] = prev;
+
+      // A direct min-thumb interaction should cancel any max-thumb bridge mode.
+      if (armmBridgeModeRef.current === 'min-via-max') {
+        armmBridgeModeRef.current = null;
+      }
+
+      if (prevMin === prevMax && newMin > prevMin) {
+        armmBridgeModeRef.current = 'max-via-min';
+        return [prevMin, newMin];
+      }
+
+      if (armmBridgeModeRef.current === 'max-via-min') {
+        if (newMin >= prevMax) {
+          return [prevMin, newMin];
+        }
+        armmBridgeModeRef.current = null;
+      }
+
+      return [Math.min(newMin, prevMax), prevMax];
+    });
+  }, []);
+  const handleArmmMaxChange = React.useCallback((e) => {
+    const newMax = Number(e.target.value);
+    setArmmRange((prev) => {
+      const [prevMin, prevMax] = prev;
+
+      // A direct max-thumb interaction should cancel any min-thumb bridge mode.
+      if (armmBridgeModeRef.current === 'max-via-min') {
+        armmBridgeModeRef.current = null;
+      }
+
+      if (prevMin === prevMax && newMax < prevMax) {
+        armmBridgeModeRef.current = 'min-via-max';
+        return [newMax, prevMax];
+      }
+
+      if (armmBridgeModeRef.current === 'min-via-max') {
+        if (newMax <= prevMin) {
+          return [newMax, prevMax];
+        }
+        armmBridgeModeRef.current = null;
+      }
+
+      return [prevMin, Math.max(newMax, prevMin)];
+    });
+  }, []);
 
   // Memoize hover handlers to prevent creating new functions on every render
   const handleMouseEnterTheme = React.useCallback(() => setHoveredLayer('theme'), []);
@@ -663,23 +718,11 @@ export default function App() {
                       max="4"
                       step="1"
                       value={armmRange[0]}
-                      onChange={(e) => {
-                        const newMin = parseInt(e.target.value);
-                        setArmmRange((prev) => {
-                          // When both thumbs are at the same position, allow the min slider to move the max slider
-                          if (prev[0] === prev[1]) {
-                            if (newMin > prev[0]) {
-                              // Dragging right - move the max slider
-                              return [prev[0], newMin];
-                            } else {
-                              // Dragging left - move the min slider
-                              return [newMin, prev[1]];
-                            }
-                          } else {
-                            return [Math.min(newMin, prev[1]), prev[1]];
-                          }
-                        });
-                      }}
+                      onChange={handleArmmMinChange}
+                      onPointerDown={clearArmmBridgeMode}
+                      onPointerUp={clearArmmBridgeMode}
+                      onPointerCancel={clearArmmBridgeMode}
+                      onBlur={clearArmmBridgeMode}
                       className="absolute top-0 left-0 w-full h-1.5 appearance-none bg-transparent pointer-events-none z-10 [&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-primary [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:shadow-md [&::-webkit-slider-thumb]:transition-transform [&::-webkit-slider-thumb]:duration-tortoise hover:[&::-webkit-slider-thumb]:scale-110 [&::-moz-range-thumb]:pointer-events-auto [&::-moz-range-thumb]:appearance-none [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-white [&::-moz-range-thumb]:border-2 [&::-moz-range-thumb]:border-primary [&::-moz-range-thumb]:cursor-pointer [&::-moz-range-thumb]:shadow-md [&::-moz-range-thumb]:transition-transform [&::-moz-range-thumb]:duration-tortoise hover:[&::-moz-range-thumb]:scale-110"
                     />
 
@@ -690,23 +733,11 @@ export default function App() {
                       max="4"
                       step="1"
                       value={armmRange[1]}
-                      onChange={(e) => {
-                        const newMax = parseInt(e.target.value);
-                        setArmmRange((prev) => {
-                          // When both thumbs are at the same position, allow the max slider to move the min slider
-                          if (prev[0] === prev[1]) {
-                            if (newMax < prev[1]) {
-                              // Dragging left - move the min slider
-                              return [newMax, prev[1]];
-                            } else {
-                              // Dragging right - move the max slider
-                              return [prev[0], newMax];
-                            }
-                          } else {
-                            return [prev[0], Math.max(newMax, prev[0])];
-                          }
-                        });
-                      }}
+                      onChange={handleArmmMaxChange}
+                      onPointerDown={clearArmmBridgeMode}
+                      onPointerUp={clearArmmBridgeMode}
+                      onPointerCancel={clearArmmBridgeMode}
+                      onBlur={clearArmmBridgeMode}
                       className="absolute top-0 left-0 w-full h-1.5 appearance-none bg-transparent pointer-events-none z-20 [&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-primary [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:shadow-md [&::-webkit-slider-thumb]:transition-transform [&::-webkit-slider-thumb]:duration-tortoise hover:[&::-webkit-slider-thumb]:scale-110 [&::-moz-range-thumb]:pointer-events-auto [&::-moz-range-thumb]:appearance-none [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-white [&::-moz-range-thumb]:border-2 [&::-moz-range-thumb]:border-primary [&::-moz-range-thumb]:cursor-pointer [&::-moz-range-thumb]:shadow-md [&::-moz-range-thumb]:transition-transform [&::-moz-range-thumb]:duration-tortoise hover:[&::-moz-range-thumb]:scale-110"
                     />
 
