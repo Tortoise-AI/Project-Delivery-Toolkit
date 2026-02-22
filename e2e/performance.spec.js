@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 /**
- * Performance tests for PDATF Toolkit
+ * Performance tests for Project Delivery Toolkit
  * These tests measure render performance, interaction responsiveness, and resource usage
  */
 

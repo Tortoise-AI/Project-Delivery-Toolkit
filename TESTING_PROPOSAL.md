@@ -1,11 +1,11 @@
-# Comprehensive Testing Proposal: PDATF Toolkit
+# Comprehensive Testing Proposal: Project Delivery Toolkit
 
 ## 1. Current State Assessment
 
 ### Project Overview
-**Name:** PDATF Toolkit (pdatf-toolkit)
+**Name:** Project Delivery Toolkit (project-delivery-toolkit)
 **Type:** Single-Page Application (SPA)
-**Purpose:** Interactive data visualization tool for exploring barrier themes and resources in the PDATF (Project Delivery and Technology Framework) project
+**Purpose:** Interactive data visualization tool for exploring barrier themes and resources in the Project Delivery Toolkit
 
 ### Technologies & Frameworks Identified
 
@@ -501,7 +501,7 @@ import App from '../../App';
 describe('App Component', () => {
   it('should render without crashing', () => {
     render(<App />);
-    expect(screen.getByText(/PDATF/i)).toBeInTheDocument();
+    expect(screen.getByText(/Project Delivery Toolkit/i)).toBeInTheDocument();
   });
 
   it('should update search input', async () => {
@@ -915,7 +915,7 @@ vi.mock('node-fetch');
 expect(wrapper).toMatchSnapshot();
 
 // GOOD - Test specific behavior
-expect(screen.getByRole('heading')).toHaveTextContent('PDATF Toolkit');
+expect(screen.getByRole('heading')).toHaveTextContent('Project Delivery Toolkit');
 ```
 
 ### Tech Stack-Specific Recommendations
@@ -1286,7 +1286,7 @@ Track these KPIs:
 
 ## 15. Conclusion
 
-This PDATF Toolkit is a well-structured, modern React application that currently has **zero test coverage**. Implementing this testing proposal will:
+This Project Delivery Toolkit is a well-structured, modern React application that currently has **zero test coverage**. Implementing this testing proposal will:
 
 ✅ **Reduce bugs** by catching issues before production
 ✅ **Increase confidence** when deploying and refactoring

@@ -187,7 +187,7 @@ describe('App Component', () => {
   describe('Initial Render', () => {
     it('should render the main header with title', () => {
       render(<App />);
-      expect(screen.getByText('PDATF Barrier Toolkit')).toBeInTheDocument();
+      expect(screen.getByText('Project Delivery Toolkit')).toBeInTheDocument();
     });
 
     it('should render search input', () => {
@@ -678,7 +678,7 @@ describe('App Component', () => {
       await waitFor(() => {
         expect(searchInput).toHaveValue('&');
         // App should still render without crashing
-        expect(screen.getByText('PDATF Barrier Toolkit')).toBeInTheDocument();
+        expect(screen.getByText('Project Delivery Toolkit')).toBeInTheDocument();
       });
     });
   });

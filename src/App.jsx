@@ -165,7 +165,7 @@ export default function App() {
     if (import.meta.env.DEV) {
       // Log initial performance metrics after component mounts
       const timer = setTimeout(() => {
-        console.log('=== PDATF Toolkit Performance Report ===');
+        console.log('=== Project Delivery Toolkit Performance Report ===');
         logWebVitals();
         logMemoryUsage();
         checkPerformanceBudget();

@@ -118,7 +118,7 @@ describe('build-data script', () => {
         barriers: 'barrier1|barrier2',
         barrier_theme: 'leadership-and-alignment',
         tags: 'tag1|tag2',
-        publisher: 'PDATF',
+        publisher: 'Project Data Analytics Task Force',
         type: 'Guide'
       };
 

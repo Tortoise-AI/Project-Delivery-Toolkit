@@ -1,5 +1,5 @@
 /**
- * Service Worker for PDATF Toolkit
+ * Service Worker for Project Delivery Toolkit
  *
  * Provides:
  * - Offline support
@@ -8,8 +8,8 @@
  * - Background sync (future)
  */
 
-const CACHE_NAME = 'pdatf-toolkit-v1';
-const RUNTIME_CACHE = 'pdatf-runtime-v1';
+const CACHE_NAME = 'project-delivery-toolkit-v1';
+const RUNTIME_CACHE = 'project-delivery-runtime-v1';
 
 // Assets to cache immediately on install
 const PRECACHE_ASSETS = [

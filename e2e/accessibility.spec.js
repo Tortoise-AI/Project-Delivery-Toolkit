@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
 /**
- * Accessibility tests for PDATF Toolkit
+ * Accessibility tests for Project Delivery Toolkit
  * These tests check for WCAG compliance and accessibility issues
  */
 
