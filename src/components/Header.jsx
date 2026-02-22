@@ -80,7 +80,10 @@ export default function Header() {
           {/* Logo */}
           <a href={WEBSITE} className="flex items-center space-x-2 group">
             <img src="/images/logo.png" alt="TortoiseAI Logo" className="h-8 w-auto" />
-            <span className="text-xl font-bold text-secondary">TortoiseAI</span>
+            <div className="flex flex-col">
+              <span className="text-xl font-bold text-secondary leading-tight">TortoiseAI</span>
+              <span className="text-xs text-secondary/60 leading-tight">Project Delivery Toolkit</span>
+            </div>
           </a>
 
           {/* Desktop Navigation */}
