@@ -10,9 +10,28 @@ import { lighten } from '../utils/colors';
  */
 
 const ResourceItemComponent = React.memo(({ resource, BARRIERS, THEME_COLORS, lighten }) => {
+  const armmLevelNames = ["Experimenting", "Supervised", "Reliable", "Resilient", "Mission-Critical"];
+  const armmLevelColors = ["#94a3b8", "#64748b", "#475569", "#334155", "#1e293b"]; // Slate shades from light to dark
+
   return (
     <article className="bg-white border border-slate-200 rounded-3xl shadow-md/10 p-4 mb-3">
-      <h3 className="font-medium leading-snug">{resource.title}</h3>
+      <div className="flex items-start justify-between gap-2">
+        <h3 className="font-medium leading-snug flex-1">{resource.title}</h3>
+        {resource.armm_levels && resource.armm_levels.length > 0 && (
+          <div className="flex gap-1 shrink-0">
+            {resource.armm_levels.map((level) => (
+              <div
+                key={level}
+                className="w-6 h-6 rounded-full flex items-center justify-center text-white text-xs font-semibold shadow-sm"
+                style={{ backgroundColor: armmLevelColors[level] }}
+                title={`ARMM Level ${level}: ${armmLevelNames[level]}`}
+              >
+                {level}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
       <p className="text-xs text-slate-600 mt-1 line-clamp-3">{resource.description}</p>
       <div className="mt-2 flex flex-wrap gap-1 text-xs">
         {(resource.personas || []).map((p) => (

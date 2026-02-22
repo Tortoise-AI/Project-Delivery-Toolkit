@@ -9,9 +9,19 @@ export const toArray = (v) =>
     : (typeof v === "string" ? v.split("|").map(s => s.trim()).filter(Boolean) : []);
 
 /**
+ * Extract level number from ARMM level string (e.g., "Level 0: Experimenting" -> 0)
+ * @param {string} levelStr - ARMM level string
+ * @returns {number|null} Level number (0-4) or null if not found
+ */
+const extractLevelNumber = (levelStr) => {
+  const match = levelStr.match(/Level (\d+)/);
+  return match ? parseInt(match[1], 10) : null;
+};
+
+/**
  * Normalize a resource object with consistent field structure
  * @param {Object} r - Raw resource object
- * @returns {Object} Normalized resource with arrays for personas, barriers, tags
+ * @returns {Object} Normalized resource with arrays for personas, barriers, tags, armm_levels
  */
 export const normalizeResource = (r) => ({
   ...r,
@@ -19,6 +29,9 @@ export const normalizeResource = (r) => ({
   barriers: toArray(r.barriers),
   tags: toArray(r.tags),
   barrier_category: r.barrier_category || r.barrier_theme || "",
+  armm_levels: toArray(r.armm_level)
+    .map(extractLevelNumber)
+    .filter(level => level !== null),
 });
 
 /**

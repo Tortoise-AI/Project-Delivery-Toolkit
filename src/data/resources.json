@@ -21,6 +21,7 @@
       "tokenisation",
       "embeddings"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "UK Government",
     "type": "article"
   },
@@ -46,6 +47,7 @@
       "llm-instructions",
       "ai-guidance"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "UK Government",
     "type": "article"
   },
@@ -72,6 +74,7 @@
       "change-management",
       "skills"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "Association for Project Management",
     "type": "article"
   },
@@ -96,6 +99,7 @@
       "digital-logbooks",
       "interoperability"
     ],
+    "armm_level": "Level 0: Experimenting",
     "publisher": "Buildings Performance Institute Europe",
     "type": "report"
   },
@@ -123,6 +127,7 @@
       "industry-report",
       "leadership"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "CITB",
     "type": "report"
   },
@@ -147,6 +152,7 @@
       "technology-report",
       "industry-guidance"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "aec-business.com",
     "type": "report"
   },
@@ -170,6 +176,7 @@
       "skepticism",
       "governance"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "ResearchGate",
     "type": "report"
   },
@@ -195,6 +202,7 @@
       "capability",
       "trust"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "Behavioural Insights Team",
     "type": "report"
   },
@@ -219,6 +227,7 @@
       "multi-agent",
       "ethical-ai"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "PwC",
     "type": "playbook"
   },
@@ -244,6 +253,7 @@
       "leadership",
       "change-management"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "LinkedIn",
     "type": "report"
   },
@@ -269,6 +279,7 @@
       "responsible-ai",
       "culture"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "Scaled Agile",
     "type": "report"
   },
@@ -293,6 +304,7 @@
       "design-optimisation",
       "case-study"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "example.com",
     "type": "report"
   },
@@ -316,6 +328,7 @@
       "climate-tech",
       "decarbonisation"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "aoresearch.com",
     "type": "report"
   },
@@ -340,6 +353,7 @@
       "llm",
       "ai-guidance"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "UK Government",
     "type": "article"
   },
@@ -364,6 +378,7 @@
       "risk",
       "testing"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "UK Government",
     "type": "article"
   },
@@ -388,6 +403,7 @@
       "transparency",
       "risk-management"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "UK Government",
     "type": "article"
   },
@@ -412,6 +428,7 @@
       "governance",
       "ai-tools"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "UK Government",
     "type": "article"
   },
@@ -436,6 +453,7 @@
       "dataset-generation",
       "responsible-ai"
     ],
+    "armm_level": "Level 0: Experimenting",
     "publisher": "UK Government",
     "type": "article"
   },
@@ -460,6 +478,7 @@
       "attack-vectors",
       "ai-ethics"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "UK Government",
     "type": "article"
   },
@@ -484,6 +503,7 @@
       "government-guidance",
       "skills"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "UK Government",
     "type": "article"
   },
@@ -509,6 +529,7 @@
       "public-sector",
       "ethical-guidance"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "UK Government",
     "type": "playbook"
   },
@@ -533,6 +554,7 @@
       "business-survey",
       "uk-economy"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "Celonis",
     "type": "report"
   },
@@ -556,6 +578,7 @@
       "roadmap",
       "generative-ai"
     ],
+    "armm_level": "Level 0: Experimenting",
     "publisher": "cbgmanagementcoaching.co.uk",
     "type": "report"
   },
@@ -582,6 +605,7 @@
       "ethical-ai",
       "upskilling"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "Association for Project Management",
     "type": "report"
   },
@@ -606,6 +630,7 @@
       "training",
       "industry-report"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "Civil Engineering Contractors Association",
     "type": "report"
   },
@@ -630,6 +655,7 @@
       "economics-of-ai",
       "organisational-change"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "arxiv.org",
     "type": "report"
   },
@@ -655,6 +681,7 @@
       "ethical-ai",
       "ai-governance"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "UK Government",
     "type": "playbook"
   },
@@ -680,6 +707,7 @@
       "categorisation",
       "business-applications"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "iuk-business-connect.org.uk",
     "type": "guidance"
   },
@@ -705,6 +733,7 @@
       "ai-strategy",
       "governance"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "Amazon Web Services",
     "type": "guidance"
   },
@@ -731,6 +760,7 @@
       "last-mile",
       "data-foundations"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "EY",
     "type": "report"
   },
@@ -757,6 +787,7 @@
       "built-environment",
       "use-case-template"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "Chartered Institute of Building (CIOB)",
     "type": "playbook"
   },
@@ -783,6 +814,7 @@
       "gds",
       "continuous-learning"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "UK Government",
     "type": "article"
   },
@@ -806,6 +838,7 @@
       "policy",
       "stakeholder engagement"
     ],
+    "armm_level": "Level 0: Experimenting",
     "publisher": "Broadband Commission for Sustainable Development",
     "type": "report"
   },
@@ -831,6 +864,7 @@
       "SMEs",
       "place‑based innovation"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "Connected Places Catapult & Digital Twin Hub",
     "type": "report"
   },
@@ -853,6 +887,7 @@
       "resilience",
       "learning ecosystems"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "McKinsey & Company",
     "type": "report"
   },
@@ -876,6 +911,7 @@
       "virtualisation",
       "surveillance"
     ],
+    "armm_level": "Level 0: Experimenting",
     "publisher": "doi.org",
     "type": "report"
   },
@@ -900,6 +936,7 @@
       "agile",
       "data governance"
     ],
+    "armm_level": "Level 0: Experimenting",
     "publisher": "eprints.soton.ac.uk",
     "type": "report"
   },
@@ -922,6 +959,7 @@
       "skills",
       "blockers"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "RICS",
     "type": "report"
   },
@@ -944,6 +982,7 @@
       "AI adoption",
       "net‑zero"
     ],
+    "armm_level": "Level 0: Experimenting",
     "publisher": "National Grid",
     "type": "guidance"
   },
@@ -966,6 +1005,7 @@
       "responsible AI",
       "risk management"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "World Economic Forum",
     "type": "report"
   },
@@ -991,6 +1031,7 @@
       "ROI",
       "custom AI"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "EY",
     "type": "report"
   },
@@ -1014,6 +1055,7 @@
       "leadership",
       "use cases"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "Deloitte",
     "type": "report"
   },
@@ -1041,6 +1083,7 @@
       "worker-wellbeing",
       "cognitive-skills"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "CBI",
     "type": "report"
   },
@@ -1066,6 +1109,7 @@
       "ethical-ai",
       "public-sector"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "interoperable-europe.ec.europa.eu",
     "type": "guidance"
   },
@@ -1092,6 +1136,7 @@
       "meeting-minutes",
       "compliance"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "Gleeds",
     "type": "report"
   },
@@ -1119,6 +1164,7 @@
       "cloud-scale",
       "google-cloud"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "Google Cloud",
     "type": "guidance"
   },
@@ -1146,6 +1192,7 @@
       "ethical-ai",
       "forrester"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "Forrester",
     "type": "guidance"
   },
@@ -1170,6 +1217,7 @@
       "innovation",
       "ofwat"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "UK Government",
     "type": "report"
   },
@@ -1194,6 +1242,7 @@
       "adoption",
       "responsible-ai"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "Stanford University",
     "type": "report"
   },
@@ -1220,6 +1269,7 @@
       "implementation",
       "barriers"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "CB Insights",
     "type": "guidance"
   },
@@ -1246,6 +1296,7 @@
       "data-privacy",
       "ai-in-construction"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "FIDIC & EY",
     "type": "report"
   },
@@ -1273,6 +1324,7 @@
       "roadmap",
       "pwc"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "PwC & Microsoft",
     "type": "playbook"
   },
@@ -1297,6 +1349,7 @@
       "public-sector",
       "risk-and-assurance"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "testing-ai-standards.github.io",
     "type": "guidance"
   },
@@ -1320,6 +1373,7 @@
       "leadership",
       "generative-ai"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "O'Reilly Media",
     "type": "report"
   },
@@ -1343,6 +1397,7 @@
       "sustainability",
       "digital-transformation"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "IFS",
     "type": "report"
   },
@@ -1365,6 +1420,7 @@
       "risk-management",
       "responsible-ai"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "EY",
     "type": "article"
   },
@@ -1387,6 +1443,7 @@
       "net-zero",
       "digital-transformation"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "EY",
     "type": "report"
   },
@@ -1410,6 +1467,7 @@
       "workforce",
       "business-model"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "EY",
     "type": "report"
   },
@@ -1433,6 +1491,7 @@
       "ai-for-cost-management",
       "private-investment"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "EY",
     "type": "report"
   },
@@ -1455,6 +1514,7 @@
       "digital-divide",
       "decision-support"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "National Bureau of Economic Research (NBER)",
     "type": "report"
   },
@@ -1478,6 +1538,7 @@
       "digital-transformation",
       "contracts"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "neccontract.com",
     "type": "report"
   },
@@ -1502,6 +1563,7 @@
       "workforce",
       "productivity"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "OpenAI",
     "type": "report"
   },
@@ -1526,6 +1588,7 @@
       "maintenance",
       "training"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "UK Government",
     "type": "report"
   },
@@ -1549,6 +1612,7 @@
       "playbook",
       "training"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "Project Management Institute",
     "type": "playbook"
   },
@@ -1573,6 +1637,7 @@
       "governance",
       "risk-management"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "Project Management Institute",
     "type": "report"
   },
@@ -1596,6 +1661,7 @@
       "integration",
       "leadership"
     ],
+    "armm_level": "Level 0: Experimenting",
     "publisher": "Project Management Institute",
     "type": "report"
   },
@@ -1620,6 +1686,7 @@
       "risk-management",
       "readiness"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "Harvard Business Review",
     "type": "report"
   },
@@ -1643,6 +1710,7 @@
       "trust",
       "employee-experience"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "Agency4D",
     "type": "report"
   },
@@ -1666,6 +1734,7 @@
       "employee-training",
       "governance"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "EY",
     "type": "report"
   },
@@ -1690,6 +1759,7 @@
       "responsible-AI",
       "surveying"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "RICS",
     "type": "guidance"
   },
@@ -1713,6 +1783,7 @@
       "governance",
       "RICS"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "RICS",
     "type": "report"
   },
@@ -1737,6 +1808,7 @@
       "skills",
       "standards"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "RICS",
     "type": "report"
   },
@@ -1762,6 +1834,7 @@
       "governance",
       "skills-gap"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "Booz Allen Hamilton",
     "type": "report"
   },
@@ -1785,6 +1858,7 @@
       "government",
       "Teal-Book"
     ],
+    "armm_level": "Level 0: Experimenting",
     "publisher": "UK Government",
     "type": "book"
   },
@@ -1809,6 +1883,7 @@
       "talent",
       "scaling"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "EY",
     "type": "report"
   },
@@ -1832,6 +1907,7 @@
       "skills",
       "data-governance"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "doi.org",
     "type": "report"
   },
@@ -1855,6 +1931,7 @@
       "innovation",
       "skills"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "majorprojects.org",
     "type": "report"
   },
@@ -1879,6 +1956,7 @@
       "innovation",
       "CEO"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "IBM",
     "type": "report"
   },
@@ -1903,6 +1981,7 @@
       "skills",
       "labour-market"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "MIT Sloan",
     "type": "report"
   },
@@ -1926,6 +2005,7 @@
       "construction",
       "collaboration"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "Mace Group",
     "type": "report"
   },
@@ -1949,6 +2029,7 @@
       "scaling",
       "learning"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "MIT Sloan",
     "type": "report"
   },
@@ -1973,6 +2054,7 @@
       "construction",
       "offsite"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "IFS",
     "type": "report"
   },
@@ -1995,6 +2077,7 @@
       "risk-management",
       "compliance"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "EY",
     "type": "article"
   },
@@ -2017,6 +2100,7 @@
       "infrastructure",
       "net-zero"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "EY",
     "type": "report"
   },
@@ -2042,6 +2126,7 @@
       "governance",
       "future-of-work"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "EY",
     "type": "report"
   },
@@ -2066,6 +2151,7 @@
       "design-optimisation",
       "AI-cost-management"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "EY",
     "type": "report"
   },
@@ -2088,6 +2174,7 @@
       "digital-literacy",
       "global-trends"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "National Bureau of Economic Research (NBER)",
     "type": "report"
   },
@@ -2113,6 +2200,7 @@
       "sustainability",
       "BIM"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "NEC",
     "type": "report"
   },
@@ -2135,6 +2223,7 @@
       "AI-primitives",
       "workshops"
     ],
+    "armm_level": "Level 0: Experimenting",
     "publisher": "OpenAI",
     "type": "report"
   },
@@ -2159,6 +2248,7 @@
       "organisational-change",
       "ethics"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "O'Reilly Media",
     "type": "report"
   },
@@ -2183,6 +2273,7 @@
       "AI-strategy",
       "Human-oversight"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "RSM US",
     "type": "report"
   },
@@ -2206,6 +2297,7 @@
       "Augmentation",
       "Future-of-work"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "MIT Sloan",
     "type": "report"
   },
@@ -2233,6 +2325,7 @@
       "Autonomous-Systems",
       "AI-Governance"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "Gartner",
     "type": "report"
   },
@@ -2255,6 +2348,7 @@
       "Strategy-Alignment",
       "Continuous-Improvement"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "Thoughtworks",
     "type": "report"
   },
@@ -2278,6 +2372,7 @@
       "Forecasting",
       "Governance"
     ],
+    "armm_level": "Level 0: Experimenting",
     "publisher": "Institution of Civil Engineers",
     "type": "report"
   },
@@ -2300,6 +2395,7 @@
       "governance",
       "standards"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "Cabinet Office",
     "type": "guidance"
   },
@@ -2322,6 +2418,7 @@
       "strategy",
       "data"
     ],
+    "armm_level": "Level 0: Experimenting",
     "publisher": "DSIT",
     "type": "guidance"
   },
@@ -2344,6 +2441,7 @@
       "data-sharing",
       "case-study"
     ],
+    "armm_level": "Level 0: Experimenting",
     "publisher": "Geospatial Commission",
     "type": "case-study"
   },
@@ -2365,6 +2463,7 @@
       "open-standards",
       "BIM"
     ],
+    "armm_level": "Level 0: Experimenting",
     "publisher": "buildingSMART International",
     "type": "guidance"
   },
@@ -2387,6 +2486,7 @@
       "standards",
       "architecture"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "GDS / CDDO",
     "type": "guidance"
   },
@@ -2409,6 +2509,7 @@
       "procurement",
       "delivery"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "Cabinet Office",
     "type": "guidance"
   },
@@ -2430,6 +2531,7 @@
       "procurement",
       "AI"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "Cabinet Office",
     "type": "doc"
   },
@@ -2452,6 +2554,7 @@
       "assurance",
       "safety"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "AI Safety Institute",
     "type": "guidance"
   },
@@ -2473,6 +2576,7 @@
       "evaluation",
       "guidance"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "HM Treasury",
     "type": "guidance"
   },
@@ -2494,6 +2598,7 @@
       "appraisal",
       "vfm"
     ],
+    "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "HM Treasury",
     "type": "guidance"
   }
