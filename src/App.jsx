@@ -9,6 +9,8 @@ import { parseURLParams, updateBrowserURL } from "./utils/urlState";
 import { logMemoryUsage, logWebVitals, checkPerformanceBudget } from "./utils/performanceMonitor";
 import VirtualizedResourceList from "./components/VirtualizedResourceList";
 import { register as registerServiceWorker } from "./utils/serviceWorkerRegistration";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 const PERSONAS = ["Project", "Programme", "Business"];
 const ARMM_LEVELS = [
@@ -88,25 +90,10 @@ export default function App() {
   const [selectedPersonas, setSelectedPersonas] = useState([]);
   const [armmRange, setArmmRange] = useState([0, 4]); // [min, max]
   const [hoveredLayer, setHoveredLayer] = useState(null); // 'theme' | 'barrier' | null
-  const [showDisclaimer, setShowDisclaimer] = useState(false);
   const [isDesktop, setIsDesktop] = useState(() => (typeof window !== 'undefined' ? window.innerWidth >= 1024 : false));
 
-  // Header ref and dynamic height effect
-  const headerRef = React.useRef(null);
   // Tracks temporary "move the opposite thumb" behavior while dragging from an overlapped state.
   const armmBridgeModeRef = React.useRef(null);
-
-  // Memoize resize handler to avoid creating new function on each render
-  const setHdr = React.useCallback(() => {
-    const h = headerRef.current?.offsetHeight || 0;
-    document.documentElement.style.setProperty('--hdr', h + 'px');
-  }, []);
-
-  useEffect(() => {
-    setHdr();
-    window.addEventListener('resize', setHdr);
-    return () => window.removeEventListener('resize', setHdr);
-  }, [setHdr]);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -625,13 +612,8 @@ export default function App() {
   const mainStyle = isDesktop ? { height: layoutHeight } : { minHeight: layoutHeight };
 
   return (
-    <div className="min-h-screen overflow-x-hidden">
-      {/* Small header with just title */}
-      <header ref={headerRef} className="sticky top-0 z-50 bg-primary/95 backdrop-blur text-white py-3 border-b border-white/10 shadow-lg">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight">Project Delivery Toolkit</h1>
-        </div>
-      </header>
+    <div className="min-h-screen overflow-x-hidden" style={{ paddingTop: 'var(--hdr)' }}>
+      <Header />
 
       {/* Main content */}
       <main
@@ -952,52 +934,7 @@ export default function App() {
         </section>
       </main>
 
-      {/* Footer with disclaimer link */}
-      <footer className="py-6 px-4 text-center mt-6 lg:mt-2">
-        <button
-          onClick={() => setShowDisclaimer(true)}
-          className="text-sm text-secondary/60 hover:text-primary transition-colors duration-tortoise underline underline-offset-4"
-        >
-          Disclaimer
-        </button>
-      </footer>
-
-      {/* Disclaimer Modal */}
-      {showDisclaimer && (
-        <div
-          className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-[100] transition-opacity duration-tortoise"
-          onClick={() => setShowDisclaimer(false)}
-        >
-          <div
-            className="bg-white rounded-xl shadow-2xl max-w-2xl w-full p-8 max-h-[80vh] overflow-y-auto transform transition-transform duration-tortoise"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="flex justify-between items-start mb-6">
-              <h2 className="text-2xl md:text-3xl font-bold text-secondary">Disclaimer</h2>
-              <button
-                onClick={() => setShowDisclaimer(false)}
-                className="text-secondary/40 hover:text-secondary transition-colors duration-tortoise text-3xl leading-none"
-                aria-label="Close"
-              >
-                ×
-              </button>
-            </div>
-            <div className="text-base md:text-lg text-secondary/80 leading-relaxed space-y-4">
-              <p>
-                This toolkit is provided for general guidance only and does not constitute legal or professional advice. Use of the Toolkit does not create any legal obligations or guarantees of compliance, approval, or funding. Users are responsible for ensuring their practices meet applicable laws, regulations, and contractual requirements. No liability is accepted for any loss or damage resulting from its use. The content may be updated periodically. Users should refer to the latest version and seek independent advice where needed.
-              </p>
-            </div>
-            <div className="mt-8 text-right">
-              <button
-                onClick={() => setShowDisclaimer(false)}
-                className="font-medium rounded-lg px-6 py-3 bg-primary text-white hover:scale-[1.02] active:scale-[0.98] transition-transform duration-tortoise shadow-lg"
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <Footer />
     </div>
   );
 } 

@@ -40,6 +40,19 @@
   }
 }
 
+/* Header and footer: reset global link styles so nav links render correctly */
+header a,
+footer a {
+  color: inherit;
+  text-decoration: none;
+  opacity: 1;
+}
+header a:hover,
+footer a:hover {
+  text-decoration: none;
+  opacity: 1;
+}
+
 /* Recharts helpers */
 /* Make legend ignore pointer events so it doesn't block clicks */
 .recharts-legend-wrapper { pointer-events: none; }
