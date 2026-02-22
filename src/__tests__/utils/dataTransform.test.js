@@ -85,17 +85,25 @@ describe('normalizeResource()', () => {
         personas: 'Project|Programme',
         barriers: 'barrier1|barrier2',
         tags: 'tag1|tag2',
-        barrier_category: 'leadership-and-alignment'
+        barrier_category: 'leadership-and-alignment',
+        country: 'GB',
+        region: 'Europe',
+        language: 'en',
+        evidence_type: 'research',
+        maturity_signal: 'established',
       };
       const result = normalizeResource(input);
-      expect(result).toEqual({
-        id: '1',
-        title: 'Test Resource',
-        personas: ['Project', 'Programme'],
-        barriers: ['barrier1', 'barrier2'],
-        tags: ['tag1', 'tag2'],
-        barrier_category: 'leadership-and-alignment'
-      });
+      expect(result.id).toBe('1');
+      expect(result.title).toBe('Test Resource');
+      expect(result.personas).toEqual(['Project', 'Programme']);
+      expect(result.barriers).toEqual(['barrier1', 'barrier2']);
+      expect(result.tags).toEqual(['tag1', 'tag2']);
+      expect(result.barrier_category).toBe('leadership-and-alignment');
+      expect(result.country).toEqual(['GB']);
+      expect(result.region).toEqual(['Europe']);
+      expect(result.language).toBe('en');
+      expect(result.evidence_type).toBe('research');
+      expect(result.maturity_signal).toBe('established');
     });
 
     it('should preserve other fields not explicitly normalized', () => {
@@ -221,6 +229,80 @@ describe('normalizeResource()', () => {
       expect(result.personas).toEqual(['Project']);
       expect(result.barriers).toEqual(['barrier1', 'barrier2']);
       expect(result.tags).toEqual(['tag1', 'tag2', 'tag3']);
+    });
+  });
+
+  describe('internationalisation fields', () => {
+    it('should default country to ["GB"] when missing', () => {
+      const input = { id: '1', title: 'Test', personas: '', barriers: '', tags: '' };
+      const result = normalizeResource(input);
+      expect(result.country).toEqual(['GB']);
+    });
+
+    it('should default country to ["GB"] when empty string', () => {
+      const input = { id: '1', title: 'Test', personas: '', barriers: '', tags: '', country: '' };
+      const result = normalizeResource(input);
+      expect(result.country).toEqual(['GB']);
+    });
+
+    it('should parse pipe-delimited country string', () => {
+      const input = { id: '1', title: 'Test', personas: '', barriers: '', tags: '', country: 'US|CA' };
+      const result = normalizeResource(input);
+      expect(result.country).toEqual(['US', 'CA']);
+    });
+
+    it('should accept country already as array', () => {
+      const input = { id: '1', title: 'Test', personas: '', barriers: '', tags: '', country: ['SG', 'AU'] };
+      const result = normalizeResource(input);
+      expect(result.country).toEqual(['SG', 'AU']);
+    });
+
+    it('should parse pipe-delimited region string', () => {
+      const input = { id: '1', title: 'Test', personas: '', barriers: '', tags: '', region: 'Europe|Asia-Pacific' };
+      const result = normalizeResource(input);
+      expect(result.region).toEqual(['Europe', 'Asia-Pacific']);
+    });
+
+    it('should default region to empty array when missing', () => {
+      const input = { id: '1', title: 'Test', personas: '', barriers: '', tags: '' };
+      const result = normalizeResource(input);
+      expect(result.region).toEqual([]);
+    });
+
+    it('should default language to "en" when missing', () => {
+      const input = { id: '1', title: 'Test', personas: '', barriers: '', tags: '' };
+      const result = normalizeResource(input);
+      expect(result.language).toBe('en');
+    });
+
+    it('should preserve explicit language value', () => {
+      const input = { id: '1', title: 'Test', personas: '', barriers: '', tags: '', language: 'fr' };
+      const result = normalizeResource(input);
+      expect(result.language).toBe('fr');
+    });
+
+    it('should default evidence_type to empty string when missing', () => {
+      const input = { id: '1', title: 'Test', personas: '', barriers: '', tags: '' };
+      const result = normalizeResource(input);
+      expect(result.evidence_type).toBe('');
+    });
+
+    it('should preserve explicit evidence_type value', () => {
+      const input = { id: '1', title: 'Test', personas: '', barriers: '', tags: '', evidence_type: 'case-study' };
+      const result = normalizeResource(input);
+      expect(result.evidence_type).toBe('case-study');
+    });
+
+    it('should default maturity_signal to empty string when missing', () => {
+      const input = { id: '1', title: 'Test', personas: '', barriers: '', tags: '' };
+      const result = normalizeResource(input);
+      expect(result.maturity_signal).toBe('');
+    });
+
+    it('should preserve explicit maturity_signal value', () => {
+      const input = { id: '1', title: 'Test', personas: '', barriers: '', tags: '', maturity_signal: 'proven-at-scale' };
+      const result = normalizeResource(input);
+      expect(result.maturity_signal).toBe('proven-at-scale');
     });
   });
 });

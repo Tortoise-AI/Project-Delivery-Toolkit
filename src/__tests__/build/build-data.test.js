@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { parse } from 'csv-parse/sync';
 import fs from 'node:fs';
+import { getRegionsForCountries } from '../../utils/geography.js';
 
 // Mock node-fetch
 vi.mock('node-fetch', () => ({
@@ -172,6 +173,69 @@ describe('build-data script', () => {
       expect(normalized.tags).toEqual([]);
       expect(normalized.publisher).toBe('');
       expect(normalized.type).toBe('');
+    });
+
+    it('should default country to ["GB"] when country column is absent', () => {
+      const splitPipes = (s) => (s ? s.split('|').map(v => v.trim()).filter(Boolean) : []);
+      const r = { country: undefined };
+      const country = splitPipes(r.country || 'GB');
+      expect(country).toEqual(['GB']);
+    });
+
+    it('should parse pipe-delimited country column', () => {
+      const splitPipes = (s) => (s ? s.split('|').map(v => v.trim()).filter(Boolean) : []);
+      const r = { country: 'GB|INTL' };
+      const country = splitPipes(r.country || 'GB');
+      expect(country).toEqual(['GB', 'INTL']);
+    });
+
+    it('should auto-compute region from country when region column is blank', () => {
+      const splitPipes = (s) => (s ? s.split('|').map(v => v.trim()).filter(Boolean) : []);
+      const r = { country: 'US|CA', region: '' };
+      const country = splitPipes(r.country || 'GB');
+      const regionFromCsv = splitPipes(r.region);
+      const region = regionFromCsv.length ? regionFromCsv : getRegionsForCountries(country);
+      expect(region).toEqual(['North America']);
+    });
+
+    it('should prefer explicit region column over computed value', () => {
+      const splitPipes = (s) => (s ? s.split('|').map(v => v.trim()).filter(Boolean) : []);
+      const r = { country: 'GB', region: 'International' };
+      const country = splitPipes(r.country || 'GB');
+      const regionFromCsv = splitPipes(r.region);
+      const region = regionFromCsv.length ? regionFromCsv : getRegionsForCountries(country);
+      expect(region).toEqual(['International']);
+    });
+
+    it('should default language to "en" when column is absent', () => {
+      const r = { language: undefined };
+      expect(r.language || 'en').toBe('en');
+    });
+
+    it('should fall back to type for evidence_type when evidence_type column is absent', () => {
+      const r = { evidence_type: undefined, type: 'guidance' };
+      expect(r.evidence_type || r.type || '').toBe('guidance');
+    });
+
+    it('should use evidence_type column when present', () => {
+      const r = { evidence_type: 'case-study', type: 'report' };
+      expect(r.evidence_type || r.type || '').toBe('case-study');
+    });
+
+    it('should default maturity_signal to empty string when column is absent', () => {
+      const r = { maturity_signal: undefined };
+      expect(r.maturity_signal || '').toBe('');
+    });
+
+    it('should handle CSV with new internationalisation columns', () => {
+      const csvData = `id,title,url,personas,barriers,barrier_theme,tags,country,region,language,evidence_type,maturity_signal
+1,SG Resource,https://example.com,Project,barrier1,theme1,tag1,SG,,en,case-study,established`;
+
+      const result = parse(csvData, { columns: true, skip_empty_lines: true, bom: true });
+      expect(result[0].country).toBe('SG');
+      expect(result[0].language).toBe('en');
+      expect(result[0].evidence_type).toBe('case-study');
+      expect(result[0].maturity_signal).toBe('established');
     });
   });
 

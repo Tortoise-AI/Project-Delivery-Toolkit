@@ -23,7 +23,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "UK Government",
-    "type": "article"
+    "type": "article",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "article",
+    "maturity_signal": ""
   },
   {
     "id": "ai-insights-prompt-engineering-2025",
@@ -49,7 +58,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "UK Government",
-    "type": "article"
+    "type": "article",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "article",
+    "maturity_signal": ""
   },
   {
     "id": "seven-lessons-in-ai-2025",
@@ -76,7 +94,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "Association for Project Management",
-    "type": "article"
+    "type": "article",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "article",
+    "maturity_signal": ""
   },
   {
     "id": "vision-for-data-built-environment-2025",
@@ -101,7 +128,16 @@
     ],
     "armm_level": "Level 0: Experimenting",
     "publisher": "Buildings Performance Institute Europe",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "ai-automation-construction-citb-2021",
@@ -129,7 +165,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "CITB",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "abc-ai-tech-report-2024",
@@ -154,7 +199,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "aec-business.com",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "ai-as-artificial-ignorance-2025",
@@ -178,7 +232,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "ResearchGate",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "adopt-deeper-use-of-ai-bit-2025",
@@ -204,7 +267,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "Behavioural Insights Team",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "agentic-ai-new-frontier-genai-2024",
@@ -229,7 +301,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "PwC",
-    "type": "playbook"
+    "type": "playbook",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "playbook",
+    "maturity_signal": ""
   },
   {
     "id": "unlocking-cultural-readiness-for-ai-2025",
@@ -255,7 +336,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "LinkedIn",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "ai-augmented-workforce-2025",
@@ -281,7 +371,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "Scaled Agile",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "ai-in-epc-white-paper-2024",
@@ -306,7 +405,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "example.com",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "ai-in-built-world-investment-2024",
@@ -330,7 +438,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "aoresearch.com",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "ai-insights-agentic-ai-2025",
@@ -355,7 +472,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "UK Government",
-    "type": "article"
+    "type": "article",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "article",
+    "maturity_signal": ""
   },
   {
     "id": "ai-insights-agentic-rag-2025",
@@ -380,7 +506,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "UK Government",
-    "type": "article"
+    "type": "article",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "article",
+    "maturity_signal": ""
   },
   {
     "id": "ai-insights-agentic-workflow-2025",
@@ -405,7 +540,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "UK Government",
-    "type": "article"
+    "type": "article",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "article",
+    "maturity_signal": ""
   },
   {
     "id": "ai-insights-integrated-agents-2025",
@@ -430,7 +574,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "UK Government",
-    "type": "article"
+    "type": "article",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "article",
+    "maturity_signal": ""
   },
   {
     "id": "ai-insights-synthetic-data-2025",
@@ -455,7 +608,16 @@
     ],
     "armm_level": "Level 0: Experimenting",
     "publisher": "UK Government",
-    "type": "article"
+    "type": "article",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "article",
+    "maturity_signal": ""
   },
   {
     "id": "ai-insights-prompt-risks-2025",
@@ -480,7 +642,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "UK Government",
-    "type": "article"
+    "type": "article",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "article",
+    "maturity_signal": ""
   },
   {
     "id": "ai-insights-introduction-2025",
@@ -505,7 +676,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "UK Government",
-    "type": "article"
+    "type": "article",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "article",
+    "maturity_signal": ""
   },
   {
     "id": "ai-playbook-principles-2025",
@@ -531,7 +711,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "UK Government",
-    "type": "playbook"
+    "type": "playbook",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "playbook",
+    "maturity_signal": ""
   },
   {
     "id": "ai-powering-productivity-uk-2025",
@@ -556,7 +745,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "Celonis",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "ai-ready-data-essentials-2024",
@@ -580,7 +778,16 @@
     ],
     "armm_level": "Level 0: Experimenting",
     "publisher": "cbgmanagementcoaching.co.uk",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "apm-bok-data-analytics-ai-2025",
@@ -607,7 +814,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "Association for Project Management",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "ai-in-uk-construction-2025",
@@ -632,7 +848,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "Civil Engineering Contractors Association",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "ai-knowledge-economy-2024",
@@ -657,7 +882,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "arxiv.org",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "ai-playbook-uk-government-2025",
@@ -683,7 +917,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "UK Government",
-    "type": "playbook"
+    "type": "playbook",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "playbook",
+    "maturity_signal": ""
   },
   {
     "id": "bridgeai-business-ai-framework-2024",
@@ -709,7 +952,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "iuk-business-connect.org.uk",
-    "type": "guidance"
+    "type": "guidance",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "guidance",
+    "maturity_signal": ""
   },
   {
     "id": "aws-caf-for-ai-2024",
@@ -735,7 +987,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "Amazon Web Services",
-    "type": "guidance"
+    "type": "guidance",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "guidance",
+    "maturity_signal": ""
   },
   {
     "id": "breaking-away-scaling-analytics-2018",
@@ -762,7 +1023,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "EY",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "ciob-ai-playbook-2024",
@@ -789,7 +1059,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "Chartered Institute of Building (CIOB)",
-    "type": "playbook"
+    "type": "playbook",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "playbook",
+    "maturity_signal": ""
   },
   {
     "id": "ai-insights-series-introduction-2025",
@@ -816,7 +1095,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "UK Government",
-    "type": "article"
+    "type": "article",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "article",
+    "maturity_signal": ""
   },
   {
     "id": "data-governance-toolkit-2025",
@@ -840,7 +1128,16 @@
     ],
     "armm_level": "Level 0: Experimenting",
     "publisher": "Broadband Commission for Sustainable Development",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "data-sharing-and-innovation-roundtable-2025",
@@ -866,7 +1163,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "Connected Places Catapult & Digital Twin Hub",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "future-of-work-learning-trends-2025",
@@ -889,7 +1195,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "McKinsey & Company",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "digital-information-temporary-organizations-2025",
@@ -913,7 +1228,16 @@
     ],
     "armm_level": "Level 0: Experimenting",
     "publisher": "doi.org",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "digital-transformation-ai-imperative-apm-2025",
@@ -938,7 +1262,16 @@
     ],
     "armm_level": "Level 0: Experimenting",
     "publisher": "eprints.soton.ac.uk",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "digitalisation-construction-report-2023",
@@ -961,7 +1294,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "RICS",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "neso-digitalisation-strategy-action-plan-2025",
@@ -984,7 +1326,16 @@
     ],
     "armm_level": "Level 0: Experimenting",
     "publisher": "National Grid",
-    "type": "guidance"
+    "type": "guidance",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "guidance",
+    "maturity_signal": ""
   },
   {
     "id": "wef-ai-c-suite-toolkit-2022",
@@ -1007,7 +1358,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "World Economic Forum",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "ey-ai-pulse-survey-2025",
@@ -1033,7 +1393,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "EY",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "deloitte-ai-transformation-2022",
@@ -1057,7 +1426,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "Deloitte",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "genai-psychology-work-2025",
@@ -1085,7 +1463,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "CBI",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "generative-ai-framework-hmg-2024",
@@ -1111,7 +1498,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "interoperable-europe.ec.europa.eu",
-    "type": "guidance"
+    "type": "guidance",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "guidance",
+    "maturity_signal": ""
   },
   {
     "id": "gleeds-ai-initiatives-2024",
@@ -1138,7 +1534,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "Gleeds",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "google-cloud-ai-adoption-framework-2023",
@@ -1166,7 +1571,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "Google Cloud",
-    "type": "guidance"
+    "type": "guidance",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "guidance",
+    "maturity_signal": ""
   },
   {
     "id": "human-experience-ai-strategy-forrester-2025",
@@ -1194,7 +1608,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "Forrester",
-    "type": "guidance"
+    "type": "guidance",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "guidance",
+    "maturity_signal": ""
   },
   {
     "id": "h2open-open-data-water-industry-2021",
@@ -1219,7 +1642,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "UK Government",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "ai-index-report-2025",
@@ -1244,7 +1676,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "Stanford University",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "cbi-genai-adoption-survey-2025",
@@ -1271,7 +1712,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "CB Insights",
-    "type": "guidance"
+    "type": "guidance",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "guidance",
+    "maturity_signal": ""
   },
   {
     "id": "fidic-ey-ai-infrastructure-2024",
@@ -1298,7 +1748,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "FIDIC & EY",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "pwc-microsoft-ai-scale-playbook-2024",
@@ -1326,7 +1785,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "PwC & Microsoft",
-    "type": "playbook"
+    "type": "playbook",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "playbook",
+    "maturity_signal": ""
   },
   {
     "id": "how-to-test-and-evaluate-ai-cross-government-ai-testing-and-assurance-framework",
@@ -1351,7 +1819,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "testing-ai-standards.github.io",
-    "type": "guidance"
+    "type": "guidance",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "guidance",
+    "maturity_signal": ""
   },
   {
     "id": "ai-value-creators-beyond-the-generative-ai-user-mindset",
@@ -1375,7 +1852,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "O'Reilly Media",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "how-industrialized-construction-is-building-tomorrow",
@@ -1399,7 +1885,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "IFS",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "ai-guardrails-mckinsey-explainers",
@@ -1422,7 +1917,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "EY",
-    "type": "article"
+    "type": "article",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "article",
+    "maturity_signal": ""
   },
   {
     "id": "delivering-on-construction-productivity-is-no-longer-optional",
@@ -1445,7 +1949,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "EY",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "the-agentic-organization-contours-of-the-next-paradigm-for-an-ai-era",
@@ -1469,7 +1982,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "EY",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "mind-the-investment-gap-funding-and-delivering-capital-projects-amidst-fiscal-constraints",
@@ -1493,7 +2015,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "EY",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "how-people-use-chatgpt-nber-working-paper",
@@ -1516,7 +2047,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "National Bureau of Economic Research (NBER)",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "transforming-construction-smarter-greener-together",
@@ -1540,7 +2080,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "neccontract.com",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "identifying-and-scaling-ai-use-cases",
@@ -1565,7 +2114,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "OpenAI",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "performance-review-of-digital-spend-enabling-strategic-investment-and-innovation",
@@ -1590,7 +2148,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "UK Government",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "playbook-for-project-management-in-data-science-and-artificial-intelligence-projects",
@@ -1614,7 +2181,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "Project Management Institute",
-    "type": "playbook"
+    "type": "playbook",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "playbook",
+    "maturity_signal": ""
   },
   {
     "id": "leading-ai-transformation-organisational-strategies-for-project-professionals",
@@ -1639,7 +2215,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "Project Management Institute",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "sustainability-in-the-age-of-ai-the-integration-imperative",
@@ -1663,7 +2248,16 @@
     ],
     "armm_level": "Level 0: Experimenting",
     "publisher": "Project Management Institute",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "realising-the-generative-ai-opportunity-embracing-change-to-create-business-value",
@@ -1688,7 +2282,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "Harvard Business Review",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "reclaiming-humanity-in-a-world-of-ai",
@@ -1712,7 +2315,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "Agency4D",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "reconfiguring-work-change-management-in-the-age-of-generative-ai",
@@ -1736,7 +2348,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "EY",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "response-to-consultation-on-the-responsible-use-of-ai-professional-standard",
@@ -1761,7 +2382,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "RICS",
-    "type": "guidance"
+    "type": "guidance",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "guidance",
+    "maturity_signal": ""
   },
   {
     "id": "responsible-use-of-artificial-intelligence-in-surveying-practice",
@@ -1785,7 +2415,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "RICS",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "rics-artificial-intelligence-in-construction-report-2025",
@@ -1810,7 +2449,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "RICS",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "securing-ai-key-risks-threats-and-countermeasures-for-enterprise-resilience",
@@ -1836,7 +2484,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "Booz Allen Hamilton",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "teal-book-chapter-24-information-and-data-management-government-project-delivery",
@@ -1860,7 +2517,16 @@
     ],
     "armm_level": "Level 0: Experimenting",
     "publisher": "UK Government",
-    "type": "book"
+    "type": "book",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "book",
+    "maturity_signal": ""
   },
   {
     "id": "ten-red-flags-signalling-your-analytics-program-will-fail",
@@ -1885,7 +2551,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "EY",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "the-adoption-of-artificial-intelligence-in-firms-new-evidence-for-policymaking",
@@ -1909,7 +2584,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "doi.org",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "the-answer-is-ai-now-what-s-the-question-highlights-from-mpa-s-2024-conference",
@@ -1933,7 +2617,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "majorprojects.org",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "the-ceo-s-guide-to-generative-ai-second-edition",
@@ -1958,7 +2651,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "IBM",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "the-epoch-of-ai-human-machine-complementarities-at-work",
@@ -1983,7 +2685,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "MIT Sloan",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "the-future-of-major-programme-delivery-digitalisation-data-and-ai",
@@ -2007,7 +2718,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "Mace Group",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "the-genai-divide-state-of-ai-in-business-2025",
@@ -2031,7 +2751,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "MIT Sloan",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "how-industrialized-construction-is-building-tomorrow-ifs-cloud",
@@ -2056,7 +2785,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "IFS",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "what-are-ai-guardrails-mckinsey-explainers",
@@ -2079,7 +2817,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "EY",
-    "type": "article"
+    "type": "article",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "article",
+    "maturity_signal": ""
   },
   {
     "id": "delivering-on-construction-productivity-is-no-longer-optional-mckinsey",
@@ -2102,7 +2849,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "EY",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "the-agentic-organization-contours-of-the-next-paradigm-for-the-ai-era",
@@ -2128,7 +2884,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "EY",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "mind-the-investment-gap-funding-and-delivering-capital-projects-amidst-fiscal-constraints-1",
@@ -2153,7 +2918,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "EY",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "how-people-use-chatgpt-nber-working-paper-1",
@@ -2176,7 +2950,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "National Bureau of Economic Research (NBER)",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "transforming-construction-smarter-greener-together-nec",
@@ -2202,7 +2985,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "NEC",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "identifying-and-scaling-ai-use-cases-openai-guide",
@@ -2225,7 +3017,16 @@
     ],
     "armm_level": "Level 0: Experimenting",
     "publisher": "OpenAI",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "ai-value-creators-beyond-the-generative-ai-user-mindset-1",
@@ -2250,7 +3051,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "O'Reilly Media",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "the-middle-market-is-embracing-ai-to-drive-innovation-and-efficiency",
@@ -2275,7 +3085,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "RSM US",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "these-human-capabilities-complement-ai-s-shortcomings",
@@ -2299,7 +3118,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "MIT Sloan",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "top-strategic-technology-trends-for-2025-agentic-ai",
@@ -2327,7 +3155,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "Gartner",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "the-state-of-digital-and-ai-readiness",
@@ -2350,7 +3187,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "Thoughtworks",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "why-do-major-projects-cost-so-much-and-take-so-long-and-what-can-be-done-about-it",
@@ -2374,7 +3220,16 @@
     ],
     "armm_level": "Level 0: Experimenting",
     "publisher": "Institution of Civil Engineers",
-    "type": "report"
+    "type": "report",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "report",
+    "maturity_signal": ""
   },
   {
     "id": "govs002-standard",
@@ -2397,7 +3252,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "Cabinet Office",
-    "type": "guidance"
+    "type": "guidance",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "guidance",
+    "maturity_signal": ""
   },
   {
     "id": "national-data-strategy",
@@ -2420,7 +3284,16 @@
     ],
     "armm_level": "Level 0: Experimenting",
     "publisher": "DSIT",
-    "type": "guidance"
+    "type": "guidance",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "guidance",
+    "maturity_signal": ""
   },
   {
     "id": "nuar-guidance",
@@ -2443,7 +3316,16 @@
     ],
     "armm_level": "Level 0: Experimenting",
     "publisher": "Geospatial Commission",
-    "type": "case-study"
+    "type": "case-study",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "case-study",
+    "maturity_signal": ""
   },
   {
     "id": "ifc-overview",
@@ -2465,7 +3347,16 @@
     ],
     "armm_level": "Level 0: Experimenting",
     "publisher": "buildingSMART International",
-    "type": "guidance"
+    "type": "guidance",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "guidance",
+    "maturity_signal": ""
   },
   {
     "id": "technology-code-of-practice",
@@ -2488,7 +3379,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "GDS / CDDO",
-    "type": "guidance"
+    "type": "guidance",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "guidance",
+    "maturity_signal": ""
   },
   {
     "id": "construction-playbook",
@@ -2511,7 +3411,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "Cabinet Office",
-    "type": "guidance"
+    "type": "guidance",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "guidance",
+    "maturity_signal": ""
   },
   {
     "id": "ppn-02-24",
@@ -2533,7 +3442,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised",
     "publisher": "Cabinet Office",
-    "type": "doc"
+    "type": "doc",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "doc",
+    "maturity_signal": ""
   },
   {
     "id": "aisi-approach-to-evaluations",
@@ -2556,7 +3474,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "AI Safety Institute",
-    "type": "guidance"
+    "type": "guidance",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "guidance",
+    "maturity_signal": ""
   },
   {
     "id": "magenta-book",
@@ -2578,7 +3505,16 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "HM Treasury",
-    "type": "guidance"
+    "type": "guidance",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "guidance",
+    "maturity_signal": ""
   },
   {
     "id": "green-book-collection",
@@ -2600,6 +3536,15 @@
     ],
     "armm_level": "Level 0: Experimenting|Level 1: Supervised|Level 2: Reliable",
     "publisher": "HM Treasury",
-    "type": "guidance"
+    "type": "guidance",
+    "country": [
+      "GB"
+    ],
+    "region": [
+      "Europe"
+    ],
+    "language": "en",
+    "evidence_type": "guidance",
+    "maturity_signal": ""
   }
 ]

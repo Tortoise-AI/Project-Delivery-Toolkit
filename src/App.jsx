@@ -11,6 +11,7 @@ import VirtualizedResourceList from "./components/VirtualizedResourceList";
 import { register as registerServiceWorker } from "./utils/serviceWorkerRegistration";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import { REGIONS, EVIDENCE_TYPES, getRegionsForCountries, getCountryFlag } from "./utils/geography";
 
 const PERSONAS = ["Project", "Programme", "Business"];
 const ARMM_LEVELS = [
@@ -25,7 +26,7 @@ const RAD = Math.PI / 180;
 // No need for memoized cell components - we'll render cells inline
 
 // --- Memoized Resource Item Component ---
-const ResourceItem = React.memo(({ resource, BARRIERS, THEME_COLORS, lighten }) => {
+const ResourceItem = React.memo(({ resource, BARRIERS, THEME_COLORS, lighten, getCountryFlag }) => {
   const armmLevelNames = ["Experimenting", "Supervised", "Reliable", "Resilient", "Mission-Critical"];
   const armmLevelColors = ["#94a3b8", "#64748b", "#475569", "#334155", "#1e293b"]; // Slate shades from light to dark
 
@@ -64,6 +65,22 @@ const ResourceItem = React.memo(({ resource, BARRIERS, THEME_COLORS, lighten }) 
           );
         })}
       </div>
+      {/* Country flags and evidence type */}
+      <div className="mt-2 flex flex-wrap items-center gap-2 text-xs">
+        {(resource.country || []).map((c) => {
+          const flag = getCountryFlag(c);
+          return flag ? (
+            <span key={c} className="text-base leading-none" title={c} aria-label={c}>
+              {flag}
+            </span>
+          ) : null;
+        })}
+        {resource.evidence_type && (
+          <span className="inline-flex items-center rounded-full px-2.5 py-0.5 bg-primary/10 text-primary font-medium">
+            {resource.evidence_type}
+          </span>
+        )}
+      </div>
       <a className="mt-3 inline-flex text-sm font-medium rounded-lg px-6 py-3 bg-primary text-white hover:scale-[1.02] active:scale-[0.98] transition-transform duration-tortoise" href={resource.url} target="_blank" rel="noreferrer">
         Open resource
       </a>
@@ -89,6 +106,10 @@ export default function App() {
   const [selectedBarrier, setSelectedBarrier] = useState(null); // string | null (single)
   const [selectedPersonas, setSelectedPersonas] = useState([]);
   const [armmRange, setArmmRange] = useState([0, 4]); // [min, max]
+  const [selectedRegions, setSelectedRegions] = useState([]);
+  const [selectedCountries, setSelectedCountries] = useState([]);
+  const [selectedEvidenceTypes, setSelectedEvidenceTypes] = useState([]);
+  const [moreFiltersOpen, setMoreFiltersOpen] = useState(false);
   const [hoveredLayer, setHoveredLayer] = useState(null); // 'theme' | 'barrier' | null
   const [isDesktop, setIsDesktop] = useState(() => (typeof window !== 'undefined' ? window.innerWidth >= 1024 : false));
 
@@ -122,6 +143,9 @@ export default function App() {
     if (params.barrier) setSelectedBarrier(params.barrier);
     if (params.personas.length) setSelectedPersonas(params.personas);
     if (params.armmRange) setArmmRange(params.armmRange);
+    if (params.regions.length) setSelectedRegions(params.regions);
+    if (params.countries.length) setSelectedCountries(params.countries);
+    if (params.evidenceTypes.length) setSelectedEvidenceTypes(params.evidenceTypes);
   }, []);
   useEffect(() => {
     updateBrowserURL({
@@ -129,9 +153,12 @@ export default function App() {
       theme: selectedTheme,
       barrier: selectedBarrier,
       personas: selectedPersonas,
-      armmRange: armmRange
+      armmRange: armmRange,
+      regions: selectedRegions,
+      countries: selectedCountries,
+      evidenceTypes: selectedEvidenceTypes,
     });
-  }, [search, selectedTheme, selectedBarrier, selectedPersonas, armmRange]);
+  }, [search, selectedTheme, selectedBarrier, selectedPersonas, armmRange, selectedRegions, selectedCountries, selectedEvidenceTypes]);
 
   // Performance monitoring on mount (development only)
   useEffect(() => {
@@ -177,7 +204,10 @@ export default function App() {
     setSelectedTheme(null); // clear theme when picking a barrier
   }, []);
   const togglePersona = React.useCallback((id) => setSelectedPersonas((curr) => (curr.includes(id) ? curr.filter((x) => x !== id) : [...curr, id])), []);
-  const clearAll = React.useCallback(() => { setSearch(""); setSelectedTheme(null); setSelectedBarrier(null); setSelectedPersonas([]); setArmmRange([0, 4]); }, []);
+  const toggleRegion = React.useCallback((id) => setSelectedRegions((curr) => (curr.includes(id) ? curr.filter((x) => x !== id) : [...curr, id])), []);
+  const toggleCountry = React.useCallback((id) => setSelectedCountries((curr) => (curr.includes(id) ? curr.filter((x) => x !== id) : [...curr, id])), []);
+  const toggleEvidenceType = React.useCallback((id) => setSelectedEvidenceTypes((curr) => (curr.includes(id) ? curr.filter((x) => x !== id) : [...curr, id])), []);
+  const clearAll = React.useCallback(() => { setSearch(""); setSelectedTheme(null); setSelectedBarrier(null); setSelectedPersonas([]); setArmmRange([0, 4]); setSelectedRegions([]); setSelectedCountries([]); setSelectedEvidenceTypes([]); }, []);
   const clearArmmBridgeMode = React.useCallback(() => {
     armmBridgeModeRef.current = null;
   }, []);
@@ -241,7 +271,8 @@ export default function App() {
   const THEMES = useMemo(() => [...THEMES_RAW].sort((a, b) => (a.order ?? 999) - (b.order ?? 999)), []);
   const BARRIERS = useMemo(() => BARRIERS_RAW.map(b => ({ ...b, themeId: b.themeId || b.categoryId })), []);
 
-  // Base filter (affects counts & ring): search + personas + ARMM range - memoize to prevent cascading recalculations
+  // Base filter (affects counts & ring): search + personas + ARMM range + region + evidenceType
+  // Memoize to prevent cascading recalculations
   const baseFilter = React.useCallback((r) => {
     const q = search.trim().toLowerCase();
     const matchesText = !q || r.title.toLowerCase().includes(q) || r.description.toLowerCase().includes(q) || (r.tags || []).some((t) => t.toLowerCase().includes(q));
@@ -252,8 +283,16 @@ export default function App() {
     const matchesARMM = isDefaultRange
       ? true // Show all resources (including those without ARMM data) when range is default
       : (r.armm_levels && r.armm_levels.length > 0 && r.armm_levels.some((level) => level >= minLevel && level <= maxLevel));
-    return matchesText && matchesPersonas && matchesARMM;
-  }, [search, selectedPersonas, armmRange]);
+    // Region: match against stored region array or compute from country
+    const matchesRegion = !selectedRegions.length ||
+      (r.region && r.region.some(reg => selectedRegions.includes(reg))) ||
+      getRegionsForCountries(r.country || []).some(reg => selectedRegions.includes(reg));
+    const matchesCountry = !selectedCountries.length ||
+      (r.country && r.country.some(c => selectedCountries.includes(c)));
+    const matchesEvidenceType = !selectedEvidenceTypes.length ||
+      selectedEvidenceTypes.includes(r.evidence_type);
+    return matchesText && matchesPersonas && matchesARMM && matchesRegion && matchesCountry && matchesEvidenceType;
+  }, [search, selectedPersonas, armmRange, selectedRegions, selectedCountries, selectedEvidenceTypes]);
 
   // ---- Build aligned data ----
   const barrierValues = useMemo(() => {
@@ -565,7 +604,7 @@ export default function App() {
     );
   }, [themeTotal, selectedTheme, selectedBarrier, BARRIERS, toggleTheme]);
 
-  // Results list filter (honour single-selection)
+  // Results list filter (honours single-selection for theme/barrier plus all other filters)
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
     const [minLevel, maxLevel] = armmRange;
@@ -578,11 +617,18 @@ export default function App() {
       const matchesARMM = isDefaultRange
         ? true
         : (r.armm_levels && r.armm_levels.length > 0 && r.armm_levels.some((level) => level >= minLevel && level <= maxLevel));
-      return matchesText && matchesPersonas && matchesTheme && matchesBarrier && matchesARMM;
+      const matchesRegion = !selectedRegions.length ||
+        (r.region && r.region.some(reg => selectedRegions.includes(reg))) ||
+        getRegionsForCountries(r.country || []).some(reg => selectedRegions.includes(reg));
+      const matchesCountry = !selectedCountries.length ||
+        (r.country && r.country.some(c => selectedCountries.includes(c)));
+      const matchesEvidenceType = !selectedEvidenceTypes.length ||
+        selectedEvidenceTypes.includes(r.evidence_type);
+      return matchesText && matchesPersonas && matchesTheme && matchesBarrier && matchesARMM && matchesRegion && matchesCountry && matchesEvidenceType;
     }).sort((a, b) => (b.date || "").localeCompare(a.date || ""));
     console.log('Filtered results:', results.length, 'selectedBarrier:', selectedBarrier, 'selectedTheme:', selectedTheme);
     return results;
-  }, [DATA_RESOURCES, search, selectedPersonas, selectedTheme, selectedBarrier, armmRange]);
+  }, [DATA_RESOURCES, search, selectedPersonas, selectedTheme, selectedBarrier, armmRange, selectedRegions, selectedCountries, selectedEvidenceTypes]);
 
   // Colours - memoize themeFill to prevent recreation
   const themeFill = React.useCallback((themeId, highlighted) => highlighted ? (THEME_COLORS[themeId] || "#334155") : lighten(THEME_COLORS[themeId] || "#94a3b8", 0.35), []);
@@ -642,8 +688,8 @@ export default function App() {
               </div>
             </div>
 
-            {/* Filter groups side by side */}
-            <div className="grid md:grid-cols-2 gap-4">
+            {/* Filter groups */}
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
               {/* Persona filter */}
               <div className="flex flex-col gap-2">
                 <h3 className="text-sm font-semibold text-secondary">Persona</h3>
@@ -740,6 +786,75 @@ export default function App() {
                   </div>
                 </div>
               </div>
+
+              {/* Region filter */}
+              <div className="flex flex-col gap-2">
+                <h3 className="text-sm font-semibold text-secondary">Region</h3>
+                <div className="flex flex-wrap gap-2">
+                  {REGIONS.map((region) => (
+                    <button
+                      key={region}
+                      onClick={() => toggleRegion(region)}
+                      className={`inline-flex items-center gap-1 font-medium rounded-lg border-2 px-4 py-2 text-xs transition-all duration-tortoise hover:scale-[1.02] active:scale-[0.98] ${
+                        selectedRegions.includes(region)
+                          ? "bg-primary border-primary text-white"
+                          : "bg-white border-secondary/20 text-secondary hover:border-primary/40"
+                      }`}
+                    >
+                      {region}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* More filters disclosure toggle */}
+            <div>
+              <button
+                onClick={() => setMoreFiltersOpen((v) => !v)}
+                className="flex items-center gap-1 text-xs font-medium text-secondary/60 hover:text-secondary transition-colors duration-tortoise"
+                aria-expanded={moreFiltersOpen}
+              >
+                <svg
+                  className={`w-3.5 h-3.5 transition-transform duration-200 ${moreFiltersOpen ? 'rotate-180' : ''}`}
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path d="M19 9l-7 7-7-7" />
+                </svg>
+                {moreFiltersOpen ? 'Fewer filters' : 'More filters'}
+              </button>
+
+              {moreFiltersOpen && (
+                <div className="grid md:grid-cols-2 gap-4 mt-3 pt-3 border-t border-secondary/10">
+                  {/* Evidence Type filter */}
+                  <div className="flex flex-col gap-2">
+                    <h3 className="text-sm font-semibold text-secondary">Evidence Type</h3>
+                    <div className="flex flex-wrap gap-2">
+                      {EVIDENCE_TYPES.map((et) => (
+                        <button
+                          key={et}
+                          onClick={() => toggleEvidenceType(et)}
+                          className={`inline-flex items-center gap-1 font-medium rounded-lg border-2 px-4 py-2 text-xs transition-all duration-tortoise hover:scale-[1.02] active:scale-[0.98] ${
+                            selectedEvidenceTypes.includes(et)
+                              ? "bg-primary border-primary text-white"
+                              : "bg-white border-secondary/20 text-secondary hover:border-primary/40"
+                          }`}
+                        >
+                          {et}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Country filter (derived from data; shows countries present in filtered results) */}
+                  {/* TODO: future - add country search / flag-based picker here */}
+                </div>
+              )}
             </div>
           </div>
         </section>
@@ -920,6 +1035,7 @@ export default function App() {
                         BARRIERS={BARRIERS}
                         THEME_COLORS={THEME_COLORS}
                         lighten={lighten}
+                        getCountryFlag={getCountryFlag}
                       />
                     ))}
                   </div>
