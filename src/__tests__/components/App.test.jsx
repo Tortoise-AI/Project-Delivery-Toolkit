@@ -398,14 +398,14 @@ describe('App Component', () => {
       const projectButton = screen.getByRole('button', { name: 'Project' });
 
       // Check initial state (not selected)
-      expect(projectButton).not.toHaveClass('bg-indigo-600');
+      expect(projectButton).not.toHaveClass('bg-primary');
 
       // Click to select
       await user.click(projectButton);
 
       // Check selected state
       await waitFor(() => {
-        expect(projectButton).toHaveClass('bg-indigo-600');
+        expect(projectButton).toHaveClass('bg-primary');
       });
     });
 
@@ -439,13 +439,13 @@ describe('App Component', () => {
 
       await user.click(projectButton);
       await waitFor(() => {
-        expect(projectButton).toHaveClass('bg-indigo-600');
+        expect(projectButton).toHaveClass('bg-primary');
       });
 
       await user.click(clearButton);
 
       await waitFor(() => {
-        expect(projectButton).not.toHaveClass('bg-indigo-600');
+        expect(projectButton).not.toHaveClass('bg-primary');
         const articles = screen.getAllByRole('article');
         expect(articles).toHaveLength(5);
       });
@@ -505,7 +505,7 @@ describe('App Component', () => {
       const projectButton = screen.getByRole('button', { name: 'Project' });
 
       expect(searchInput).toHaveValue('strategy');
-      expect(projectButton).toHaveClass('bg-indigo-600');
+      expect(projectButton).toHaveClass('bg-primary');
     });
 
     it('should clear URL params when clear button is clicked', async () => {
