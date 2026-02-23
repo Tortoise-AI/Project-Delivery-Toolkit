@@ -5,12 +5,10 @@ describe('parseURLParams()', () => {
   describe('valid parameters', () => {
     it('should parse all parameters correctly', () => {
       const result = parseURLParams('?q=data&theme=leadership&barrier=barrier1&personas=Project,Programme');
-      expect(result).toEqual({
-        search: 'data',
-        theme: 'leadership',
-        barrier: 'barrier1',
-        personas: ['Project', 'Programme']
-      });
+      expect(result.search).toBe('data');
+      expect(result.theme).toBe('leadership');
+      expect(result.barrier).toBe('barrier1');
+      expect(result.personas).toEqual(['Project', 'Programme']);
     });
 
     it('should parse search query parameter', () => {
@@ -42,12 +40,13 @@ describe('parseURLParams()', () => {
   describe('missing parameters', () => {
     it('should return defaults when no parameters provided', () => {
       const result = parseURLParams('');
-      expect(result).toEqual({
-        search: '',
-        theme: null,
-        barrier: null,
-        personas: []
-      });
+      expect(result.search).toBe('');
+      expect(result.theme).toBeNull();
+      expect(result.barrier).toBeNull();
+      expect(result.personas).toEqual([]);
+      expect(result.regions).toEqual([]);
+      expect(result.countries).toEqual([]);
+      expect(result.evidenceTypes).toEqual([]);
     });
 
     it('should return defaults for missing theme', () => {
@@ -82,12 +81,13 @@ describe('parseURLParams()', () => {
 
     it('should handle just question mark', () => {
       const result = parseURLParams('?');
-      expect(result).toEqual({
-        search: '',
-        theme: null,
-        barrier: null,
-        personas: []
-      });
+      expect(result.search).toBe('');
+      expect(result.theme).toBeNull();
+      expect(result.barrier).toBeNull();
+      expect(result.personas).toEqual([]);
+      expect(result.regions).toEqual([]);
+      expect(result.countries).toEqual([]);
+      expect(result.evidenceTypes).toEqual([]);
     });
   });
 
@@ -331,5 +331,118 @@ describe('updateBrowserURL()', () => {
       '',
       '/toolkit'
     );
+  });
+});
+
+describe('internationalisation URL parameters', () => {
+  describe('parseURLParams() - new fields', () => {
+    it('should parse region parameter as array', () => {
+      const result = parseURLParams('?region=Europe');
+      expect(result.regions).toEqual(['Europe']);
+    });
+
+    it('should parse multiple regions', () => {
+      const result = parseURLParams('?region=Europe,Asia-Pacific');
+      expect(result.regions).toEqual(['Europe', 'Asia-Pacific']);
+    });
+
+    it('should return empty array for missing region', () => {
+      const result = parseURLParams('?q=test');
+      expect(result.regions).toEqual([]);
+    });
+
+    it('should parse country parameter as array', () => {
+      const result = parseURLParams('?country=GB');
+      expect(result.countries).toEqual(['GB']);
+    });
+
+    it('should parse multiple countries', () => {
+      const result = parseURLParams('?country=GB,US,SG');
+      expect(result.countries).toEqual(['GB', 'US', 'SG']);
+    });
+
+    it('should return empty array for missing country', () => {
+      const result = parseURLParams('');
+      expect(result.countries).toEqual([]);
+    });
+
+    it('should parse evidence_type parameter as array', () => {
+      const result = parseURLParams('?evidence_type=case-study');
+      expect(result.evidenceTypes).toEqual(['case-study']);
+    });
+
+    it('should parse multiple evidence types', () => {
+      const result = parseURLParams('?evidence_type=case-study,research');
+      expect(result.evidenceTypes).toEqual(['case-study', 'research']);
+    });
+
+    it('should return empty array for missing evidence_type', () => {
+      const result = parseURLParams('');
+      expect(result.evidenceTypes).toEqual([]);
+    });
+
+    it('should parse all new params together', () => {
+      const result = parseURLParams('?region=Europe&country=GB&evidence_type=research');
+      expect(result.regions).toEqual(['Europe']);
+      expect(result.countries).toEqual(['GB']);
+      expect(result.evidenceTypes).toEqual(['research']);
+    });
+  });
+
+  describe('generateURLParams() - new fields', () => {
+    it('should include region in output', () => {
+      const state = { search: '', theme: null, barrier: null, personas: [],
+        regions: ['Europe'], countries: [], evidenceTypes: [] };
+      const result = generateURLParams(state);
+      expect(result).toContain('region=Europe');
+    });
+
+    it('should join multiple regions with comma', () => {
+      const state = { search: '', theme: null, barrier: null, personas: [],
+        regions: ['Europe', 'Asia-Pacific'], countries: [], evidenceTypes: [] };
+      const result = generateURLParams(state);
+      expect(result).toContain('region=Europe%2CAsia-Pacific');
+    });
+
+    it('should omit region when empty', () => {
+      const state = { search: '', theme: null, barrier: null, personas: [],
+        regions: [], countries: [], evidenceTypes: [] };
+      const result = generateURLParams(state);
+      expect(result).not.toContain('region');
+    });
+
+    it('should include country in output', () => {
+      const state = { search: '', theme: null, barrier: null, personas: [],
+        regions: [], countries: ['GB'], evidenceTypes: [] };
+      const result = generateURLParams(state);
+      expect(result).toContain('country=GB');
+    });
+
+    it('should include evidence_type in output', () => {
+      const state = { search: '', theme: null, barrier: null, personas: [],
+        regions: [], countries: [], evidenceTypes: ['case-study'] };
+      const result = generateURLParams(state);
+      expect(result).toContain('evidence_type=case-study');
+    });
+
+    it('should omit evidence_type when empty', () => {
+      const state = { search: 'test', theme: null, barrier: null, personas: [],
+        regions: [], countries: [], evidenceTypes: [] };
+      const result = generateURLParams(state);
+      expect(result).not.toContain('evidence_type');
+    });
+  });
+
+  describe('roundtrip - new fields', () => {
+    it('should roundtrip region, country, and evidence_type', () => {
+      const original = '?region=Europe,Asia-Pacific&country=GB,SG&evidence_type=case-study,research';
+      const parsed = parseURLParams(original);
+      const generated = generateURLParams(parsed);
+      const reparsed = parseURLParams(generated);
+
+      expect(reparsed.regions).toEqual(['Europe', 'Asia-Pacific']);
+      expect(reparsed.countries).toEqual(['GB', 'SG']);
+      expect(reparsed.evidenceTypes).toEqual(['case-study', 'research']);
+    });
   });
 });

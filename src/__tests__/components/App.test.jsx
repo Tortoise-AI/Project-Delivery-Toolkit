@@ -16,7 +16,12 @@ vi.mock('../../data/resources.json', () => ({
       "barrier_category": "leadership-and-alignment",
       "tags": ["governance", "standards"],
       "publisher": "Government",
-      "type": "Guide"
+      "type": "Guide",
+      "country": ["GB"],
+      "region": ["Europe"],
+      "language": "en",
+      "evidence_type": "guidance",
+      "maturity_signal": "established"
     },
     {
       "id": "resource-2",
@@ -29,7 +34,12 @@ vi.mock('../../data/resources.json', () => ({
       "barrier_category": "data-pooling-and-interoperability",
       "tags": ["data", "strategy"],
       "publisher": "Tech Organization",
-      "type": "Framework"
+      "type": "Framework",
+      "country": ["US"],
+      "region": ["North America"],
+      "language": "en",
+      "evidence_type": "framework",
+      "maturity_signal": ""
     },
     {
       "id": "resource-3",
@@ -42,7 +52,12 @@ vi.mock('../../data/resources.json', () => ({
       "barrier_category": "digital-and-tech-constraints",
       "tags": ["technical", "migration"],
       "publisher": "Consulting Firm",
-      "type": "Guide"
+      "type": "Guide",
+      "country": ["GB"],
+      "region": ["Europe"],
+      "language": "en",
+      "evidence_type": "guidance",
+      "maturity_signal": ""
     },
     {
       "id": "resource-4",
@@ -55,7 +70,30 @@ vi.mock('../../data/resources.json', () => ({
       "barrier_category": "leadership-and-alignment",
       "tags": ["metrics", "performance", "alignment"],
       "publisher": "Business School",
-      "type": "Research"
+      "type": "Research",
+      "country": ["GB"],
+      "region": ["Europe"],
+      "language": "en",
+      "evidence_type": "research",
+      "maturity_signal": ""
+    },
+    {
+      "id": "resource-5",
+      "title": "Singapore Smart Nation AI Framework",
+      "url": "https://example.com/sg-smart-nation",
+      "date": "2024-04-01",
+      "description": "Singapore government guidance on AI adoption across public sector projects",
+      "personas": ["Business", "Programme"],
+      "barriers": ["leadership-and-alignment.fragmented-governance"],
+      "barrier_category": "leadership-and-alignment",
+      "tags": ["AI", "government", "Asia"],
+      "publisher": "Singapore Government",
+      "type": "guidance",
+      "country": ["SG"],
+      "region": ["Asia-Pacific"],
+      "language": "en",
+      "evidence_type": "guidance",
+      "maturity_signal": "proven-at-scale"
     }
   ]
 }));
@@ -149,7 +187,7 @@ describe('App Component', () => {
   describe('Initial Render', () => {
     it('should render the main header with title', () => {
       render(<App />);
-      expect(screen.getByText('PDATF Barrier Toolkit')).toBeInTheDocument();
+      expect(screen.getByText('Project Delivery Toolkit')).toBeInTheDocument();
     });
 
     it('should render search input', () => {
@@ -180,7 +218,7 @@ describe('App Component', () => {
       // Should show all 4 mock resources initially - check by counting articles
       await waitFor(() => {
         const articles = screen.getAllByRole('article');
-        expect(articles).toHaveLength(4);
+        expect(articles).toHaveLength(5);
       });
     });
 
@@ -291,7 +329,7 @@ describe('App Component', () => {
       await waitFor(() => {
         expect(searchInput).toHaveValue('');
         const articles = screen.getAllByRole('article');
-        expect(articles).toHaveLength(4);
+        expect(articles).toHaveLength(5);
       });
     });
   });
@@ -349,7 +387,7 @@ describe('App Component', () => {
       await user.click(projectButton);
       await waitFor(() => {
         const articles = screen.getAllByRole('article');
-        expect(articles).toHaveLength(4);
+        expect(articles).toHaveLength(5);
       });
     });
 
@@ -409,7 +447,7 @@ describe('App Component', () => {
       await waitFor(() => {
         expect(projectButton).not.toHaveClass('bg-indigo-600');
         const articles = screen.getAllByRole('article');
-        expect(articles).toHaveLength(4);
+        expect(articles).toHaveLength(5);
       });
     });
   });
@@ -512,7 +550,7 @@ describe('App Component', () => {
     it('should display "Open resource" links', () => {
       render(<App />);
       const links = screen.getAllByText('Open resource');
-      expect(links).toHaveLength(4);
+      expect(links).toHaveLength(5);
 
       // All links should have target="_blank" and rel="noreferrer"
       links.forEach((link) => {
@@ -525,8 +563,8 @@ describe('App Component', () => {
       render(<App />);
       const articles = screen.getAllByRole('article');
 
-      // First article should be the most recent (2024-03-10)
-      expect(within(articles[0]).getByText('Legacy System Migration Guide')).toBeInTheDocument();
+      // First article should be the most recent (2024-04-01)
+      expect(within(articles[0]).getByText('Singapore Smart Nation AI Framework')).toBeInTheDocument();
 
       // Last should be oldest (2024-01-15)
       const lastIndex = articles.length - 1;
@@ -606,7 +644,7 @@ describe('App Component', () => {
       render(<App />);
       // Should not crash and should render all resources
       const articles = screen.getAllByRole('article');
-      expect(articles).toHaveLength(4);
+      expect(articles).toHaveLength(5);
     });
 
     it('should handle rapid filter changes', async () => {
@@ -640,7 +678,7 @@ describe('App Component', () => {
       await waitFor(() => {
         expect(searchInput).toHaveValue('&');
         // App should still render without crashing
-        expect(screen.getByText('PDATF Barrier Toolkit')).toBeInTheDocument();
+        expect(screen.getByText('Project Delivery Toolkit')).toBeInTheDocument();
       });
     });
   });

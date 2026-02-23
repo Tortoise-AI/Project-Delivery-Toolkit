@@ -1,15 +1,15 @@
-# PDATF Toolkit
+# Project Delivery Toolkit
 
 [![CI/CD Pipeline](https://github.com/USERNAME/REPO/actions/workflows/ci.yml/badge.svg)](https://github.com/USERNAME/REPO/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/USERNAME/REPO/branch/main/graph/badge.svg)](https://codecov.io/gh/USERNAME/REPO)
 [![Test Coverage](https://img.shields.io/badge/coverage-80%25-brightgreen.svg)](./coverage)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-An interactive toolkit for exploring barrier themes and resources in the PDATF project. Built with React, Vite, and Recharts.
+An interactive toolkit for exploring barrier themes and resources in the Project Delivery Toolkit. Built with React, Vite, and Recharts.
 
 ## Disclaimer
 
-This toolkit is provided for general guidance only and does not constitute legal or professional advice. Use of the PDATF Toolkit does not create any legal obligations or guarantees of compliance, approval, or funding. Users are responsible for ensuring their practices meet applicable laws, regulations, and contractual requirements. No liability is accepted for any loss or damage resulting from its use. The content may be updated periodically. Users should refer to the latest version and seek independent advice where needed.
+This toolkit is provided for general guidance only and does not constitute legal or professional advice. Use of the Project Delivery Toolkit does not create any legal obligations or guarantees of compliance, approval, or funding. Users are responsible for ensuring their practices meet applicable laws, regulations, and contractual requirements. No liability is accepted for any loss or damage resulting from its use. The content may be updated periodically. Users should refer to the latest version and seek independent advice where needed.
 
 ## Features
 - Interactive donut chart visualization of themes and barriers

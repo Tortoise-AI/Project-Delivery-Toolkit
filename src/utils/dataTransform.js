@@ -21,7 +21,8 @@ const extractLevelNumber = (levelStr) => {
 /**
  * Normalize a resource object with consistent field structure
  * @param {Object} r - Raw resource object
- * @returns {Object} Normalized resource with arrays for personas, barriers, tags, armm_levels
+ * @returns {Object} Normalized resource with arrays for personas, barriers, tags, armm_levels,
+ *   country, region, and scalar fields for language, evidence_type, maturity_signal
  */
 export const normalizeResource = (r) => ({
   ...r,
@@ -32,6 +33,11 @@ export const normalizeResource = (r) => ({
   armm_levels: toArray(r.armm_level)
     .map(extractLevelNumber)
     .filter(level => level !== null),
+  country: toArray(r.country).length ? toArray(r.country) : ["GB"],
+  region: toArray(r.region),
+  language: r.language || "en",
+  evidence_type: r.evidence_type || "",
+  maturity_signal: r.maturity_signal || "",
 });
 
 /**

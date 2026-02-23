@@ -11,6 +11,7 @@ import VirtualizedResourceList from "./components/VirtualizedResourceList";
 import { register as registerServiceWorker } from "./utils/serviceWorkerRegistration";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import { REGIONS, EVIDENCE_TYPES, getRegionsForCountries, getCountryFlag } from "./utils/geography";
 
 const PERSONAS = ["Project", "Programme", "Business"];
 const ARMM_LEVELS = [
@@ -25,7 +26,7 @@ const RAD = Math.PI / 180;
 // No need for memoized cell components - we'll render cells inline
 
 // --- Memoized Resource Item Component ---
-const ResourceItem = React.memo(({ resource, BARRIERS, THEME_COLORS, lighten }) => {
+const ResourceItem = React.memo(({ resource, BARRIERS, THEME_COLORS, lighten, getCountryFlag }) => {
   const armmLevelNames = ["Experimenting", "Supervised", "Reliable", "Resilient", "Mission-Critical"];
   const armmLevelColors = ["#94a3b8", "#64748b", "#475569", "#334155", "#1e293b"]; // Slate shades from light to dark
 
@@ -64,6 +65,22 @@ const ResourceItem = React.memo(({ resource, BARRIERS, THEME_COLORS, lighten }) 
           );
         })}
       </div>
+      {/* Country flags and evidence type */}
+      <div className="mt-2 flex flex-wrap items-center gap-2 text-xs">
+        {(resource.country || []).map((c) => {
+          const flag = getCountryFlag(c);
+          return flag ? (
+            <span key={c} className="text-base leading-none" title={c} aria-label={c}>
+              {flag}
+            </span>
+          ) : null;
+        })}
+        {resource.evidence_type && (
+          <span className="inline-flex items-center rounded-full px-2.5 py-0.5 bg-primary/10 text-primary font-medium">
+            {resource.evidence_type}
+          </span>
+        )}
+      </div>
       <a className="mt-3 inline-flex text-sm font-medium rounded-lg px-6 py-3 bg-primary text-white hover:scale-[1.02] active:scale-[0.98] transition-transform duration-tortoise" href={resource.url} target="_blank" rel="noreferrer">
         Open resource
       </a>
@@ -89,6 +106,10 @@ export default function App() {
   const [selectedBarrier, setSelectedBarrier] = useState(null); // string | null (single)
   const [selectedPersonas, setSelectedPersonas] = useState([]);
   const [armmRange, setArmmRange] = useState([0, 4]); // [min, max]
+  const [selectedRegions, setSelectedRegions] = useState([]);
+  const [selectedCountries, setSelectedCountries] = useState([]);
+  const [selectedEvidenceTypes, setSelectedEvidenceTypes] = useState([]);
+  const [moreFiltersOpen, setMoreFiltersOpen] = useState(false);
   const [hoveredLayer, setHoveredLayer] = useState(null); // 'theme' | 'barrier' | null
   const [isDesktop, setIsDesktop] = useState(() => (typeof window !== 'undefined' ? window.innerWidth >= 1024 : false));
 
@@ -122,6 +143,9 @@ export default function App() {
     if (params.barrier) setSelectedBarrier(params.barrier);
     if (params.personas.length) setSelectedPersonas(params.personas);
     if (params.armmRange) setArmmRange(params.armmRange);
+    if (params.regions.length) setSelectedRegions(params.regions);
+    if (params.countries.length) setSelectedCountries(params.countries);
+    if (params.evidenceTypes.length) setSelectedEvidenceTypes(params.evidenceTypes);
   }, []);
   useEffect(() => {
     updateBrowserURL({
@@ -129,16 +153,19 @@ export default function App() {
       theme: selectedTheme,
       barrier: selectedBarrier,
       personas: selectedPersonas,
-      armmRange: armmRange
+      armmRange: armmRange,
+      regions: selectedRegions,
+      countries: selectedCountries,
+      evidenceTypes: selectedEvidenceTypes,
     });
-  }, [search, selectedTheme, selectedBarrier, selectedPersonas, armmRange]);
+  }, [search, selectedTheme, selectedBarrier, selectedPersonas, armmRange, selectedRegions, selectedCountries, selectedEvidenceTypes]);
 
   // Performance monitoring on mount (development only)
   useEffect(() => {
     if (import.meta.env.DEV) {
       // Log initial performance metrics after component mounts
       const timer = setTimeout(() => {
-        console.log('=== PDATF Toolkit Performance Report ===');
+        console.log('=== Project Delivery Toolkit Performance Report ===');
         logWebVitals();
         logMemoryUsage();
         checkPerformanceBudget();
@@ -177,7 +204,10 @@ export default function App() {
     setSelectedTheme(null); // clear theme when picking a barrier
   }, []);
   const togglePersona = React.useCallback((id) => setSelectedPersonas((curr) => (curr.includes(id) ? curr.filter((x) => x !== id) : [...curr, id])), []);
-  const clearAll = React.useCallback(() => { setSearch(""); setSelectedTheme(null); setSelectedBarrier(null); setSelectedPersonas([]); setArmmRange([0, 4]); }, []);
+  const toggleRegion = React.useCallback((id) => setSelectedRegions((curr) => (curr.includes(id) ? curr.filter((x) => x !== id) : [...curr, id])), []);
+  const toggleCountry = React.useCallback((id) => setSelectedCountries((curr) => (curr.includes(id) ? curr.filter((x) => x !== id) : [...curr, id])), []);
+  const toggleEvidenceType = React.useCallback((id) => setSelectedEvidenceTypes((curr) => (curr.includes(id) ? curr.filter((x) => x !== id) : [...curr, id])), []);
+  const clearAll = React.useCallback(() => { setSearch(""); setSelectedTheme(null); setSelectedBarrier(null); setSelectedPersonas([]); setArmmRange([0, 4]); setSelectedRegions([]); setSelectedCountries([]); setSelectedEvidenceTypes([]); }, []);
   const clearArmmBridgeMode = React.useCallback(() => {
     armmBridgeModeRef.current = null;
   }, []);
@@ -241,7 +271,8 @@ export default function App() {
   const THEMES = useMemo(() => [...THEMES_RAW].sort((a, b) => (a.order ?? 999) - (b.order ?? 999)), []);
   const BARRIERS = useMemo(() => BARRIERS_RAW.map(b => ({ ...b, themeId: b.themeId || b.categoryId })), []);
 
-  // Base filter (affects counts & ring): search + personas + ARMM range - memoize to prevent cascading recalculations
+  // Base filter (affects counts & ring): search + personas + ARMM range + region + evidenceType
+  // Memoize to prevent cascading recalculations
   const baseFilter = React.useCallback((r) => {
     const q = search.trim().toLowerCase();
     const matchesText = !q || r.title.toLowerCase().includes(q) || r.description.toLowerCase().includes(q) || (r.tags || []).some((t) => t.toLowerCase().includes(q));
@@ -252,8 +283,16 @@ export default function App() {
     const matchesARMM = isDefaultRange
       ? true // Show all resources (including those without ARMM data) when range is default
       : (r.armm_levels && r.armm_levels.length > 0 && r.armm_levels.some((level) => level >= minLevel && level <= maxLevel));
-    return matchesText && matchesPersonas && matchesARMM;
-  }, [search, selectedPersonas, armmRange]);
+    // Region: match against stored region array or compute from country
+    const matchesRegion = !selectedRegions.length ||
+      (r.region && r.region.some(reg => selectedRegions.includes(reg))) ||
+      getRegionsForCountries(r.country || []).some(reg => selectedRegions.includes(reg));
+    const matchesCountry = !selectedCountries.length ||
+      (r.country && r.country.some(c => selectedCountries.includes(c)));
+    const matchesEvidenceType = !selectedEvidenceTypes.length ||
+      selectedEvidenceTypes.includes(r.evidence_type);
+    return matchesText && matchesPersonas && matchesARMM && matchesRegion && matchesCountry && matchesEvidenceType;
+  }, [search, selectedPersonas, armmRange, selectedRegions, selectedCountries, selectedEvidenceTypes]);
 
   // ---- Build aligned data ----
   const barrierValues = useMemo(() => {
@@ -476,13 +515,14 @@ export default function App() {
   const renderOuterThemeLabel = React.useCallback((props) => {
     const { cx, cy, startAngle, endAngle, innerRadius, outerRadius, payload } = props;
     if (!themeTotal) return null;
+    // Hide label entirely for themes with no items (value is set to 0.0001 epsilon for empty themes)
+    if ((payload?.value || 0) <= 0.001) return null;
 
     // pad and angles
     const pad = 2;
     const sA = startAngle > endAngle ? startAngle - pad : startAngle + pad;
     const eA = startAngle > endAngle ? endAngle + pad : endAngle - pad;
     const rawAngle = Math.abs(eA - sA);
-    if (rawAngle < 12) return null;
 
     const ir = Number(innerRadius);
     const or = Number(outerRadius);
@@ -495,19 +535,102 @@ export default function App() {
     };
 
     const midDeg = (sA + eA) / 2;
+    const color = THEME_COLORS[payload?.id] || '#334155';
+
+    // Dim labels when their theme isn't active (match ring behaviour)
+    const activeThemeId = selectedTheme || (selectedBarrier ? (BARRIERS.find(b => b.id === selectedBarrier)?.themeId) : null);
+    const dim = !!(activeThemeId && payload?.id !== activeThemeId);
+    const labelOpacity = dim ? 0.3 : 1;
+
+    // External label renderer with word-wrap and bounds-safe positioning
+    const renderExternalLabel = (labelText) => {
+      const font = 10;
+      const pxPerChar = 7.2 * (font / 12); // ~6px per char at 10px
+      const EDGE_MARGIN = 20;
+      const barrierOuterR = or * (75 / 83);
+      const labelR = or + 55;
+      const [ax, ay] = toXY(midDeg, barrierOuterR + 2);
+      const [rawLx, rawLy] = toXY(midDeg, labelR);
+
+      // Clamp label endpoint to stay within SVG bounds
+      const svgWidth = cx * 2;
+      const svgHeight = cy * 2;
+      const lx = Math.min(svgWidth - EDGE_MARGIN, Math.max(EDGE_MARGIN, rawLx));
+      const ly = Math.min(svgHeight - EDGE_MARGIN, Math.max(EDGE_MARGIN, rawLy));
+
+      // Determine text anchor and x based on position relative to center
+      const nearCenterThreshold = or * 0.08;
+      const inRightHalf = rawLx > cx + nearCenterThreshold;
+      const inLeftHalf = rawLx < cx - nearCenterThreshold;
+      const textAnchor = inRightHalf ? "start" : (inLeftHalf ? "end" : "middle");
+      const textX = inRightHalf ? lx + 4 : (inLeftHalf ? lx - 4 : lx);
+
+      // Max available width before hitting SVG edge (with breathing room)
+      const maxWidth = inRightHalf
+        ? Math.max(60, svgWidth - textX - EDGE_MARGIN)
+        : (inLeftHalf
+            ? Math.max(60, textX - EDGE_MARGIN)
+            : Math.max(60, Math.min(textX, svgWidth - textX) - EDGE_MARGIN));
+      const maxCharsPerLine = Math.max(8, Math.floor(maxWidth / pxPerChar));
+
+      // Word-wrap into lines
+      const words = labelText.split(' ');
+      const lines = [];
+      let current = '';
+      for (const word of words) {
+        const test = current ? `${current} ${word}` : word;
+        if (test.length <= maxCharsPerLine) {
+          current = test;
+        } else {
+          if (current) lines.push(current);
+          current = word;
+        }
+      }
+      if (current) lines.push(current);
+
+      const lineHeight = font * 1.35;
+      const totalH = (lines.length - 1) * lineHeight;
+
+      return (
+        <g opacity={labelOpacity} style={{ cursor: "pointer" }} onClick={() => toggleTheme(payload?.id)}>
+          <line x1={ax} y1={ay} x2={lx} y2={ly} stroke={color} strokeWidth={1} strokeLinecap="round" />
+          <circle cx={ax} cy={ay} r={2} fill={color} />
+          {lines.map((line, i) => (
+            <text
+              key={i}
+              x={textX}
+              y={ly - totalH / 2 + i * lineHeight}
+              fill={color}
+              fontSize={font}
+              fontWeight="600"
+              textAnchor={textAnchor}
+              dominantBaseline="middle"
+            >
+              {line}
+            </text>
+          ))}
+        </g>
+      );
+    };
+
+    // Small slice: always use external label
+    if (rawAngle < 12) {
+      return renderExternalLabel(payload?.name || '');
+    }
+
+    // Regular slice: try arc label; fall back to external if text would need truncation
     const [_mx2, my] = toXY(midDeg, (ir + or) / 2);
     const isBottom = my > cy;
 
-    // place path slightly outside the actual outer ring
-    const r = or + 5; // 8px outside the ring (reduced whitespace)
-    const buildPath = (a0, a1, r, steps = Math.max(10, Math.ceil(Math.abs(a1 - a0) / 6))) => {
+    const r = or + 5;
+    const buildPath = (a0, a1, rr, steps = Math.max(10, Math.ceil(Math.abs(a1 - a0) / 6))) => {
       const pts = [];
       for (let i = 0; i <= steps; i++) {
         const t = i / steps;
         const a = a0 + (a1 - a0) * t;
         const rad = (-a) * RAD;
-        const x = cx + r * Math.cos(rad);
-        const y = cy + r * Math.sin(rad);
+        const x = cx + rr * Math.cos(rad);
+        const y = cy + rr * Math.sin(rad);
         pts.push([x, y]);
       }
       let d = `M ${pts[0][0]} ${pts[0][1]}`;
@@ -519,29 +642,21 @@ export default function App() {
     const a1 = isBottom ? sA : eA;
     const d = buildPath(a0, a1, r);
 
-    // fit
     const arcLenPx = r * Math.abs(a1 - a0) * RAD;
     const pxPerCharAt12px = 7.2;
     const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
     const label = payload?.name || '';
     const maxPx = Math.max(64, arcLenPx * 0.9);
-    let font = clamp(arcLenPx / Math.max(18, label.length * 0.85), 9.5, 12.5);
-    const est = label.length * (pxPerCharAt12px * (font / 12));
-    let text = label;
+    const arcFont = clamp(arcLenPx / Math.max(18, label.length * 0.85), 9.5, 12.5);
+    const est = label.length * (pxPerCharAt12px * (arcFont / 12));
+
+    // If the full label doesn't fit on the arc, use external multi-line label instead
     if (est > maxPx) {
-      const maxChars = Math.floor(maxPx / (pxPerCharAt12px * (font / 12)));
-      text = (label.length <= maxChars) ? label : label.slice(0, Math.max(0, maxChars - 1)).trimEnd() + '…';
+      return renderExternalLabel(label);
     }
 
-    const color = THEME_COLORS[payload?.id] || '#334155';
     const pathId = `themeOuterArc-${payload?.id}-${Math.round(sA)}-${Math.round(eA)}`;
 
-    // Dim labels when their theme isn't active (match ring behaviour)
-    const activeThemeId = selectedTheme || (selectedBarrier ? (BARRIERS.find(b => b.id === selectedBarrier)?.themeId) : null);
-    const dim = !!(activeThemeId && payload?.id !== activeThemeId);
-    const labelOpacity = dim ? 0.3 : 1;
-
-    // Make the label interactive: wrap in <g> (no pointerEvents: 'none'), add onClick to <text>, cursor pointer.
     return (
       <g>
         <defs>
@@ -549,7 +664,7 @@ export default function App() {
         </defs>
         <text
           fill={color}
-          fontSize={font}
+          fontSize={arcFont}
           fontWeight="600"
           textAnchor="middle"
           dominantBaseline="middle"
@@ -558,14 +673,14 @@ export default function App() {
           onClick={() => toggleTheme(payload?.id)}
         >
           <textPath href={`#${pathId}`} startOffset="50%" method="align" spacing="auto">
-            {text}
+            {label}
           </textPath>
         </text>
       </g>
     );
   }, [themeTotal, selectedTheme, selectedBarrier, BARRIERS, toggleTheme]);
 
-  // Results list filter (honour single-selection)
+  // Results list filter (honours single-selection for theme/barrier plus all other filters)
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
     const [minLevel, maxLevel] = armmRange;
@@ -578,11 +693,18 @@ export default function App() {
       const matchesARMM = isDefaultRange
         ? true
         : (r.armm_levels && r.armm_levels.length > 0 && r.armm_levels.some((level) => level >= minLevel && level <= maxLevel));
-      return matchesText && matchesPersonas && matchesTheme && matchesBarrier && matchesARMM;
+      const matchesRegion = !selectedRegions.length ||
+        (r.region && r.region.some(reg => selectedRegions.includes(reg))) ||
+        getRegionsForCountries(r.country || []).some(reg => selectedRegions.includes(reg));
+      const matchesCountry = !selectedCountries.length ||
+        (r.country && r.country.some(c => selectedCountries.includes(c)));
+      const matchesEvidenceType = !selectedEvidenceTypes.length ||
+        selectedEvidenceTypes.includes(r.evidence_type);
+      return matchesText && matchesPersonas && matchesTheme && matchesBarrier && matchesARMM && matchesRegion && matchesCountry && matchesEvidenceType;
     }).sort((a, b) => (b.date || "").localeCompare(a.date || ""));
     console.log('Filtered results:', results.length, 'selectedBarrier:', selectedBarrier, 'selectedTheme:', selectedTheme);
     return results;
-  }, [DATA_RESOURCES, search, selectedPersonas, selectedTheme, selectedBarrier, armmRange]);
+  }, [DATA_RESOURCES, search, selectedPersonas, selectedTheme, selectedBarrier, armmRange, selectedRegions, selectedCountries, selectedEvidenceTypes]);
 
   // Colours - memoize themeFill to prevent recreation
   const themeFill = React.useCallback((themeId, highlighted) => highlighted ? (THEME_COLORS[themeId] || "#334155") : lighten(THEME_COLORS[themeId] || "#94a3b8", 0.35), []);
@@ -642,7 +764,7 @@ export default function App() {
               </div>
             </div>
 
-            {/* Filter groups side by side */}
+            {/* Filter groups */}
             <div className="grid md:grid-cols-2 gap-4">
               {/* Persona filter */}
               <div className="flex flex-col gap-2">
@@ -740,6 +862,73 @@ export default function App() {
                   </div>
                 </div>
               </div>
+
+            </div>
+
+            {/* More filters disclosure toggle */}
+            <div>
+              <button
+                onClick={() => setMoreFiltersOpen((v) => !v)}
+                className="flex items-center gap-1 text-xs font-medium text-secondary/60 hover:text-secondary transition-colors duration-tortoise"
+                aria-expanded={moreFiltersOpen}
+              >
+                <svg
+                  className={`w-3.5 h-3.5 transition-transform duration-200 ${moreFiltersOpen ? 'rotate-180' : ''}`}
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path d="M19 9l-7 7-7-7" />
+                </svg>
+                {moreFiltersOpen ? 'Fewer filters' : 'More filters'}
+              </button>
+
+              {moreFiltersOpen && (
+                <div className="grid md:grid-cols-2 gap-4 mt-3 pt-3 border-t border-secondary/10">
+                  {/* Evidence Type filter */}
+                  <div className="flex flex-col gap-2">
+                    <h3 className="text-sm font-semibold text-secondary">Evidence Type</h3>
+                    <div className="flex flex-wrap gap-2">
+                      {EVIDENCE_TYPES.map((et) => (
+                        <button
+                          key={et}
+                          onClick={() => toggleEvidenceType(et)}
+                          className={`inline-flex items-center gap-1 font-medium rounded-lg border-2 px-4 py-2 text-xs transition-all duration-tortoise hover:scale-[1.02] active:scale-[0.98] ${
+                            selectedEvidenceTypes.includes(et)
+                              ? "bg-primary border-primary text-white"
+                              : "bg-white border-secondary/20 text-secondary hover:border-primary/40"
+                          }`}
+                        >
+                          {et}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Region filter */}
+                  <div className="flex flex-col gap-2">
+                    <h3 className="text-sm font-semibold text-secondary">Region</h3>
+                    <div className="flex flex-wrap gap-2">
+                      {REGIONS.map((region) => (
+                        <button
+                          key={region}
+                          onClick={() => toggleRegion(region)}
+                          className={`inline-flex items-center gap-1 font-medium rounded-lg border-2 px-4 py-2 text-xs transition-all duration-tortoise hover:scale-[1.02] active:scale-[0.98] ${
+                            selectedRegions.includes(region)
+                              ? "bg-primary border-primary text-white"
+                              : "bg-white border-secondary/20 text-secondary hover:border-primary/40"
+                          }`}
+                        >
+                          {region}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </section>
@@ -920,6 +1109,7 @@ export default function App() {
                         BARRIERS={BARRIERS}
                         THEME_COLORS={THEME_COLORS}
                         lighten={lighten}
+                        getCountryFlag={getCountryFlag}
                       />
                     ))}
                   </div>

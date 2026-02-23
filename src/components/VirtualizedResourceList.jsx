@@ -1,6 +1,7 @@
 import React from 'react';
 import { Virtuoso } from 'react-virtuoso';
 import { lighten } from '../utils/colors';
+import { getCountryFlag } from '../utils/geography';
 
 /**
  * VirtualizedResourceList - Efficiently renders large lists of resources
@@ -51,6 +52,22 @@ const ResourceItemComponent = React.memo(({ resource, BARRIERS, THEME_COLORS, li
             </span>
           );
         })}
+      </div>
+      {/* Country flags and evidence type */}
+      <div className="mt-2 flex flex-wrap items-center gap-2 text-xs">
+        {(resource.country || []).map((c) => {
+          const flag = getCountryFlag(c);
+          return flag ? (
+            <span key={c} className="text-base leading-none" title={c} aria-label={c}>
+              {flag}
+            </span>
+          ) : null;
+        })}
+        {resource.evidence_type && (
+          <span className="inline-flex items-center rounded-full px-2.5 py-0.5 bg-primary/10 text-primary font-medium">
+            {resource.evidence_type}
+          </span>
+        )}
       </div>
       <a className="mt-3 inline-flex text-sm rounded-md px-3 py-1.5 bg-slate-900 text-white hover:bg-slate-800" href={resource.url} target="_blank" rel="noreferrer">
         Open resource

@@ -1,7 +1,8 @@
 /**
  * Parse URL search parameters and return state object
  * @param {string} searchString - URL search string (e.g., "?theme=X&barrier=Y")
- * @returns {Object} State object with theme, barrier, search query, personas, and armmRange
+ * @returns {Object} State object with theme, barrier, search query, personas, armmRange,
+ *   regions, countries, and evidenceTypes
  */
 export const parseURLParams = (searchString = window.location.search) => {
   const params = new URLSearchParams(searchString);
@@ -13,25 +14,38 @@ export const parseURLParams = (searchString = window.location.search) => {
   const personas = personasStr.split(",").filter(Boolean);
   const armmRangeStr = params.get("armmRange") || "";
   const armmRange = armmRangeStr ? armmRangeStr.split(",").map(Number) : [0, 4];
+  const regionsStr = params.get("region") || "";
+  const regions = regionsStr.split(",").filter(Boolean);
+  const countriesStr = params.get("country") || "";
+  const countries = countriesStr.split(",").filter(Boolean);
+  const evidenceTypesStr = params.get("evidence_type") || "";
+  const evidenceTypes = evidenceTypesStr.split(",").filter(Boolean);
 
   return {
     search: q,
     theme: theme,
     barrier: barrier,
     personas: personas,
-    armmRange: armmRange
+    armmRange: armmRange,
+    regions: regions,
+    countries: countries,
+    evidenceTypes: evidenceTypes,
   };
 };
 
 /**
  * Generate URL search string from state object
- * @param {Object} state - State object with search, theme, barrier, personas, armmRange
+ * @param {Object} state - State object with search, theme, barrier, personas, armmRange,
+ *   regions, countries, evidenceTypes
  * @param {string} state.search - Search query string
  * @param {string|null} state.theme - Selected theme ID
  * @param {string|null} state.barrier - Selected barrier ID
  * @param {Array<string>} state.personas - Array of selected persona IDs
  * @param {Array<number>} state.armmRange - ARMM maturity range [min, max]
- * @returns {string} URL search string (e.g., "?theme=X&barrier=Y")
+ * @param {Array<string>} state.regions - Array of selected region names
+ * @param {Array<string>} state.countries - Array of selected ISO country codes
+ * @param {Array<string>} state.evidenceTypes - Array of selected evidence type values
+ * @returns {string} URL search string (e.g., "?theme=X&region=Europe")
  */
 export const generateURLParams = (state) => {
   const params = new URLSearchParams();
@@ -57,13 +71,26 @@ export const generateURLParams = (state) => {
     params.set("armmRange", state.armmRange.join(","));
   }
 
+  if (state.regions && state.regions.length > 0) {
+    params.set("region", state.regions.join(","));
+  }
+
+  if (state.countries && state.countries.length > 0) {
+    params.set("country", state.countries.join(","));
+  }
+
+  if (state.evidenceTypes && state.evidenceTypes.length > 0) {
+    params.set("evidence_type", state.evidenceTypes.join(","));
+  }
+
   const queryString = params.toString();
   return queryString ? `?${queryString}` : '';
 };
 
 /**
  * Update the browser URL without reloading the page
- * @param {Object} state - State object with search, theme, barrier, personas, armmRange
+ * @param {Object} state - State object with search, theme, barrier, personas, armmRange,
+ *   regions, countries, evidenceTypes
  * @param {string} pathname - Optional pathname (defaults to current pathname)
  */
 export const updateBrowserURL = (state, pathname = window.location.pathname) => {
