@@ -12,6 +12,8 @@ import { register as registerServiceWorker } from "./utils/serviceWorkerRegistra
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { REGIONS, EVIDENCE_TYPES, getRegionsForCountries, getCountryFlag } from "./utils/geography";
+import { exportResourcesCsv, buildExportFilename } from "./utils/exportCsv";
+import { SUGGEST_FORM_URL } from "./constants";
 
 const PERSONAS = ["Project", "Programme", "Business"];
 const ARMM_LEVELS = [
@@ -112,6 +114,7 @@ export default function App() {
   const [moreFiltersOpen, setMoreFiltersOpen] = useState(false);
   const [hoveredLayer, setHoveredLayer] = useState(null); // 'theme' | 'barrier' | null
   const [isDesktop, setIsDesktop] = useState(() => (typeof window !== 'undefined' ? window.innerWidth >= 1024 : false));
+  const [linkCopied, setLinkCopied] = useState(false);
 
   // Tracks temporary "move the opposite thumb" behavior while dragging from an overlapped state.
   const armmBridgeModeRef = React.useRef(null);
@@ -210,6 +213,22 @@ export default function App() {
   const clearAll = React.useCallback(() => { setSearch(""); setSelectedTheme(null); setSelectedBarrier(null); setSelectedPersonas([]); setArmmRange([0, 4]); setSelectedRegions([]); setSelectedCountries([]); setSelectedEvidenceTypes([]); }, []);
   const clearArmmBridgeMode = React.useCallback(() => {
     armmBridgeModeRef.current = null;
+  }, []);
+  const copyShareLink = React.useCallback(async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      setLinkCopied(true);
+      setTimeout(() => setLinkCopied(false), 2000);
+    } catch {
+      const input = document.createElement('input');
+      input.value = window.location.href;
+      document.body.appendChild(input);
+      input.select();
+      document.execCommand('copy');
+      document.body.removeChild(input);
+      setLinkCopied(true);
+      setTimeout(() => setLinkCopied(false), 2000);
+    }
   }, []);
   const handleArmmMinChange = React.useCallback((e) => {
     const newMin = Number(e.target.value);
@@ -630,6 +649,8 @@ export default function App() {
     return results;
   }, [DATA_RESOURCES, search, selectedPersonas, selectedTheme, selectedBarrier, armmRange, selectedRegions, selectedCountries, selectedEvidenceTypes]);
 
+  const hasActiveFilters = !!(selectedTheme || selectedBarrier || selectedPersonas.length > 0 || selectedRegions.length > 0 || selectedEvidenceTypes.length > 0);
+
   // Colours - memoize themeFill to prevent recreation
   const themeFill = React.useCallback((themeId, highlighted) => highlighted ? (THEME_COLORS[themeId] || "#334155") : lighten(THEME_COLORS[themeId] || "#94a3b8", 0.35), []);
   const barrierFills = useMemo(() => {
@@ -1013,8 +1034,54 @@ export default function App() {
         {/* Right: results */}
         <section className="lg:col-span-4 lg:row-span-2 flex min-h-[40vh] lg:min-h-0 lg:h-full">
           <div className="bg-white border border-slate-200 rounded-xl shadow-lg p-6 w-full flex flex-col h-full min-h-[40vh] lg:min-h-0">
-            <div className="text-base mb-3 shrink-0 sticky top-0 bg-white z-10 border-b border-slate-200 pb-3"><span className="font-semibold text-primary">{filtered.length}</span> <span className="text-secondary/80">result{filtered.length === 1 ? "" : "s"}</span></div>
-            <div className="flex-1 min-h-0 pr-1 overflow-hidden">
+            <div className="flex items-center justify-between mb-3 shrink-0 sticky top-0 bg-white z-10 border-b border-slate-200 pb-3">
+              <div className="text-base">
+                <span className="font-semibold text-primary">{filtered.length}</span>
+                <span className="text-secondary/80"> result{filtered.length === 1 ? "" : "s"}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                {/* Copy shareable link */}
+                <button
+                  onClick={copyShareLink}
+                  className="p-1.5 rounded-lg text-secondary/60 hover:text-primary hover:bg-primary/5 transition-all duration-tortoise"
+                  title={linkCopied ? "Link copied!" : "Copy shareable link"}
+                >
+                  {linkCopied ? (
+                    <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  ) : (
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                      <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+                      <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+                    </svg>
+                  )}
+                </button>
+                {/* Export filtered results as CSV */}
+                {filtered.length > 0 && (
+                  <button
+                    onClick={() => exportResourcesCsv(filtered, buildExportFilename({ theme: selectedTheme, barrier: selectedBarrier, personas: selectedPersonas, regions: selectedRegions, evidenceTypes: selectedEvidenceTypes }))}
+                    className="p-1.5 rounded-lg text-secondary/60 hover:text-primary hover:bg-primary/5 transition-all duration-tortoise"
+                    title="Export filtered results as CSV"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                      <polyline points="7 10 12 15 17 10" />
+                      <line x1="12" y1="15" x2="12" y2="3" />
+                    </svg>
+                  </button>
+                )}
+              </div>
+            </div>
+            <div className="flex-1 min-h-0 pr-1 overflow-hidden flex flex-col">
+              {filtered.length > 0 && filtered.length < 5 && hasActiveFilters && (
+                <div className="mb-3 px-3 py-2 bg-amber-50 border border-amber-200 rounded-lg text-xs text-amber-800 shrink-0">
+                  This area has limited coverage.{' '}
+                  <a href={SUGGEST_FORM_URL} target="_blank" rel="noreferrer" className="font-medium underline hover:text-amber-900">
+                    Help us improve it
+                  </a>
+                </div>
+              )}
               {filtered.length > 0 ? (
                 // Use virtualization for large lists (>50 items) for optimal performance
                 filtered.length > 50 && isDesktop ? (
@@ -1027,7 +1094,7 @@ export default function App() {
                   />
                 ) : (
                   // Small lists render normally
-                  <div className="overflow-y-auto h-full space-y-3 pr-1 pb-2">
+                  <div className="overflow-y-auto flex-1 min-h-0 space-y-3 pr-1 pb-2">
                     {filtered.map((r) => (
                       <ResourceItem
                         key={r.id}
@@ -1041,10 +1108,34 @@ export default function App() {
                   </div>
                 )
               ) : (
-                <div className="bg-white border border-slate-200 rounded-xl shadow-lg p-6 text-sm text-secondary/80">
-                  No resources match your filters. Clear some filters or search terms.
+                <div className="bg-white border border-slate-200 rounded-xl shadow-lg p-6 text-sm text-secondary/80 space-y-3">
+                  <p>No resources match your current filters.</p>
+                  <p>
+                    <button onClick={clearAll} className="text-primary hover:underline font-medium">Clear all filters</button>
+                    {' '}or{' '}
+                    <a href={SUGGEST_FORM_URL} target="_blank" rel="noreferrer" className="text-primary hover:underline font-medium">
+                      suggest a resource
+                    </a>
+                    {' '}to help fill this gap.
+                  </p>
                 </div>
               )}
+              {/* Suggest a resource - always visible at bottom */}
+              <div className="shrink-0 pt-3 mt-auto border-t border-slate-200">
+                <a
+                  href={SUGGEST_FORM_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-1.5 text-xs font-medium text-secondary/60 hover:text-primary transition-colors duration-tortoise"
+                >
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="12" y1="8" x2="12" y2="16" />
+                    <line x1="8" y1="12" x2="16" y2="12" />
+                  </svg>
+                  Suggest a resource
+                </a>
+              </div>
             </div>
           </div>
         </section>
