@@ -59,7 +59,7 @@ export default function Footer() {
                   onClick={() => setShowDisclaimer(true)}
                   className="text-white/60 hover:text-white text-sm transition-colors duration-tortoise"
                 >
-                  Disclaimer
+                  Toolkit Disclaimer
                 </button>
                 <a
                   href={`${WEBSITE}/charity`}
