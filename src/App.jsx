@@ -515,13 +515,14 @@ export default function App() {
   const renderOuterThemeLabel = React.useCallback((props) => {
     const { cx, cy, startAngle, endAngle, innerRadius, outerRadius, payload } = props;
     if (!themeTotal) return null;
+    // Hide label entirely for themes with no items (value is set to 0.0001 epsilon for empty themes)
+    if ((payload?.value || 0) <= 0.001) return null;
 
     // pad and angles
     const pad = 2;
     const sA = startAngle > endAngle ? startAngle - pad : startAngle + pad;
     const eA = startAngle > endAngle ? endAngle + pad : endAngle - pad;
     const rawAngle = Math.abs(eA - sA);
-    if (rawAngle < 12) return null;
 
     const ir = Number(innerRadius);
     const or = Number(outerRadius);
@@ -534,19 +535,102 @@ export default function App() {
     };
 
     const midDeg = (sA + eA) / 2;
+    const color = THEME_COLORS[payload?.id] || '#334155';
+
+    // Dim labels when their theme isn't active (match ring behaviour)
+    const activeThemeId = selectedTheme || (selectedBarrier ? (BARRIERS.find(b => b.id === selectedBarrier)?.themeId) : null);
+    const dim = !!(activeThemeId && payload?.id !== activeThemeId);
+    const labelOpacity = dim ? 0.3 : 1;
+
+    // External label renderer with word-wrap and bounds-safe positioning
+    const renderExternalLabel = (labelText) => {
+      const font = 10;
+      const pxPerChar = 7.2 * (font / 12); // ~6px per char at 10px
+      const EDGE_MARGIN = 20;
+      const barrierOuterR = or * (75 / 83);
+      const labelR = or + 55;
+      const [ax, ay] = toXY(midDeg, barrierOuterR + 2);
+      const [rawLx, rawLy] = toXY(midDeg, labelR);
+
+      // Clamp label endpoint to stay within SVG bounds
+      const svgWidth = cx * 2;
+      const svgHeight = cy * 2;
+      const lx = Math.min(svgWidth - EDGE_MARGIN, Math.max(EDGE_MARGIN, rawLx));
+      const ly = Math.min(svgHeight - EDGE_MARGIN, Math.max(EDGE_MARGIN, rawLy));
+
+      // Determine text anchor and x based on position relative to center
+      const nearCenterThreshold = or * 0.08;
+      const inRightHalf = rawLx > cx + nearCenterThreshold;
+      const inLeftHalf = rawLx < cx - nearCenterThreshold;
+      const textAnchor = inRightHalf ? "start" : (inLeftHalf ? "end" : "middle");
+      const textX = inRightHalf ? lx + 4 : (inLeftHalf ? lx - 4 : lx);
+
+      // Max available width before hitting SVG edge (with breathing room)
+      const maxWidth = inRightHalf
+        ? Math.max(60, svgWidth - textX - EDGE_MARGIN)
+        : (inLeftHalf
+            ? Math.max(60, textX - EDGE_MARGIN)
+            : Math.max(60, Math.min(textX, svgWidth - textX) - EDGE_MARGIN));
+      const maxCharsPerLine = Math.max(8, Math.floor(maxWidth / pxPerChar));
+
+      // Word-wrap into lines
+      const words = labelText.split(' ');
+      const lines = [];
+      let current = '';
+      for (const word of words) {
+        const test = current ? `${current} ${word}` : word;
+        if (test.length <= maxCharsPerLine) {
+          current = test;
+        } else {
+          if (current) lines.push(current);
+          current = word;
+        }
+      }
+      if (current) lines.push(current);
+
+      const lineHeight = font * 1.35;
+      const totalH = (lines.length - 1) * lineHeight;
+
+      return (
+        <g opacity={labelOpacity} style={{ cursor: "pointer" }} onClick={() => toggleTheme(payload?.id)}>
+          <line x1={ax} y1={ay} x2={lx} y2={ly} stroke={color} strokeWidth={1} strokeLinecap="round" />
+          <circle cx={ax} cy={ay} r={2} fill={color} />
+          {lines.map((line, i) => (
+            <text
+              key={i}
+              x={textX}
+              y={ly - totalH / 2 + i * lineHeight}
+              fill={color}
+              fontSize={font}
+              fontWeight="600"
+              textAnchor={textAnchor}
+              dominantBaseline="middle"
+            >
+              {line}
+            </text>
+          ))}
+        </g>
+      );
+    };
+
+    // Small slice: always use external label
+    if (rawAngle < 12) {
+      return renderExternalLabel(payload?.name || '');
+    }
+
+    // Regular slice: try arc label; fall back to external if text would need truncation
     const [_mx2, my] = toXY(midDeg, (ir + or) / 2);
     const isBottom = my > cy;
 
-    // place path slightly outside the actual outer ring
-    const r = or + 5; // 8px outside the ring (reduced whitespace)
-    const buildPath = (a0, a1, r, steps = Math.max(10, Math.ceil(Math.abs(a1 - a0) / 6))) => {
+    const r = or + 5;
+    const buildPath = (a0, a1, rr, steps = Math.max(10, Math.ceil(Math.abs(a1 - a0) / 6))) => {
       const pts = [];
       for (let i = 0; i <= steps; i++) {
         const t = i / steps;
         const a = a0 + (a1 - a0) * t;
         const rad = (-a) * RAD;
-        const x = cx + r * Math.cos(rad);
-        const y = cy + r * Math.sin(rad);
+        const x = cx + rr * Math.cos(rad);
+        const y = cy + rr * Math.sin(rad);
         pts.push([x, y]);
       }
       let d = `M ${pts[0][0]} ${pts[0][1]}`;
@@ -558,29 +642,21 @@ export default function App() {
     const a1 = isBottom ? sA : eA;
     const d = buildPath(a0, a1, r);
 
-    // fit
     const arcLenPx = r * Math.abs(a1 - a0) * RAD;
     const pxPerCharAt12px = 7.2;
     const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
     const label = payload?.name || '';
     const maxPx = Math.max(64, arcLenPx * 0.9);
-    let font = clamp(arcLenPx / Math.max(18, label.length * 0.85), 9.5, 12.5);
-    const est = label.length * (pxPerCharAt12px * (font / 12));
-    let text = label;
+    const arcFont = clamp(arcLenPx / Math.max(18, label.length * 0.85), 9.5, 12.5);
+    const est = label.length * (pxPerCharAt12px * (arcFont / 12));
+
+    // If the full label doesn't fit on the arc, use external multi-line label instead
     if (est > maxPx) {
-      const maxChars = Math.floor(maxPx / (pxPerCharAt12px * (font / 12)));
-      text = (label.length <= maxChars) ? label : label.slice(0, Math.max(0, maxChars - 1)).trimEnd() + '…';
+      return renderExternalLabel(label);
     }
 
-    const color = THEME_COLORS[payload?.id] || '#334155';
     const pathId = `themeOuterArc-${payload?.id}-${Math.round(sA)}-${Math.round(eA)}`;
 
-    // Dim labels when their theme isn't active (match ring behaviour)
-    const activeThemeId = selectedTheme || (selectedBarrier ? (BARRIERS.find(b => b.id === selectedBarrier)?.themeId) : null);
-    const dim = !!(activeThemeId && payload?.id !== activeThemeId);
-    const labelOpacity = dim ? 0.3 : 1;
-
-    // Make the label interactive: wrap in <g> (no pointerEvents: 'none'), add onClick to <text>, cursor pointer.
     return (
       <g>
         <defs>
@@ -588,7 +664,7 @@ export default function App() {
         </defs>
         <text
           fill={color}
-          fontSize={font}
+          fontSize={arcFont}
           fontWeight="600"
           textAnchor="middle"
           dominantBaseline="middle"
@@ -597,7 +673,7 @@ export default function App() {
           onClick={() => toggleTheme(payload?.id)}
         >
           <textPath href={`#${pathId}`} startOffset="50%" method="align" spacing="auto">
-            {text}
+            {label}
           </textPath>
         </text>
       </g>
