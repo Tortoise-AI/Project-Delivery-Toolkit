@@ -689,7 +689,7 @@ export default function App() {
             </div>
 
             {/* Filter groups */}
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid md:grid-cols-2 gap-4">
               {/* Persona filter */}
               <div className="flex flex-col gap-2">
                 <h3 className="text-sm font-semibold text-secondary">Persona</h3>
@@ -787,25 +787,6 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Region filter */}
-              <div className="flex flex-col gap-2">
-                <h3 className="text-sm font-semibold text-secondary">Region</h3>
-                <div className="flex flex-wrap gap-2">
-                  {REGIONS.map((region) => (
-                    <button
-                      key={region}
-                      onClick={() => toggleRegion(region)}
-                      className={`inline-flex items-center gap-1 font-medium rounded-lg border-2 px-4 py-2 text-xs transition-all duration-tortoise hover:scale-[1.02] active:scale-[0.98] ${
-                        selectedRegions.includes(region)
-                          ? "bg-primary border-primary text-white"
-                          : "bg-white border-secondary/20 text-secondary hover:border-primary/40"
-                      }`}
-                    >
-                      {region}
-                    </button>
-                  ))}
-                </div>
-              </div>
             </div>
 
             {/* More filters disclosure toggle */}
@@ -851,8 +832,25 @@ export default function App() {
                     </div>
                   </div>
 
-                  {/* Country filter (derived from data; shows countries present in filtered results) */}
-                  {/* TODO: future - add country search / flag-based picker here */}
+                  {/* Region filter */}
+                  <div className="flex flex-col gap-2">
+                    <h3 className="text-sm font-semibold text-secondary">Region</h3>
+                    <div className="flex flex-wrap gap-2">
+                      {REGIONS.map((region) => (
+                        <button
+                          key={region}
+                          onClick={() => toggleRegion(region)}
+                          className={`inline-flex items-center gap-1 font-medium rounded-lg border-2 px-4 py-2 text-xs transition-all duration-tortoise hover:scale-[1.02] active:scale-[0.98] ${
+                            selectedRegions.includes(region)
+                              ? "bg-primary border-primary text-white"
+                              : "bg-white border-secondary/20 text-secondary hover:border-primary/40"
+                          }`}
+                        >
+                          {region}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               )}
             </div>
