@@ -1,6 +1,8 @@
 import { useState } from 'react';
+import { SUGGEST_FORM_URL } from '../constants';
 
 const WEBSITE = 'https://tortoiseai.co.uk';
+const GITHUB_URL = 'https://github.com/Tortoise-AI/Project-Delivery-Toolkit';
 
 const companyLinks = [
   { href: `${WEBSITE}/about`, label: 'About Us' },
@@ -17,7 +19,7 @@ export default function Footer() {
     <>
       <footer className="bg-secondary text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
 
             {/* Brand */}
             <div className="lg:col-span-2">
@@ -44,6 +46,33 @@ export default function Footer() {
                     </a>
                   </li>
                 ))}
+              </ul>
+            </div>
+
+            {/* Contribute */}
+            <div>
+              <h3 className="font-semibold text-lg mb-4 text-white">Contribute</h3>
+              <ul className="space-y-2">
+                <li>
+                  <a
+                    href={SUGGEST_FORM_URL}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-white/80 hover:text-primary transition-colors duration-tortoise"
+                  >
+                    Suggest a Resource
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href={GITHUB_URL}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-white/80 hover:text-primary transition-colors duration-tortoise"
+                  >
+                    GitHub
+                  </a>
+                </li>
               </ul>
             </div>
           </div>

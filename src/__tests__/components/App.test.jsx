@@ -292,7 +292,7 @@ describe('App Component', () => {
       await user.type(searchInput, 'nonexistentterm');
 
       await waitFor(() => {
-        expect(screen.getByText(/no resources match your filters/i)).toBeInTheDocument();
+        expect(screen.getByText(/no resources match your current filters/i)).toBeInTheDocument();
       });
     });
 
@@ -398,14 +398,14 @@ describe('App Component', () => {
       const projectButton = screen.getByRole('button', { name: 'Project' });
 
       // Check initial state (not selected)
-      expect(projectButton).not.toHaveClass('bg-indigo-600');
+      expect(projectButton).not.toHaveClass('bg-primary');
 
       // Click to select
       await user.click(projectButton);
 
       // Check selected state
       await waitFor(() => {
-        expect(projectButton).toHaveClass('bg-indigo-600');
+        expect(projectButton).toHaveClass('bg-primary');
       });
     });
 
@@ -439,13 +439,13 @@ describe('App Component', () => {
 
       await user.click(projectButton);
       await waitFor(() => {
-        expect(projectButton).toHaveClass('bg-indigo-600');
+        expect(projectButton).toHaveClass('bg-primary');
       });
 
       await user.click(clearButton);
 
       await waitFor(() => {
-        expect(projectButton).not.toHaveClass('bg-indigo-600');
+        expect(projectButton).not.toHaveClass('bg-primary');
         const articles = screen.getAllByRole('article');
         expect(articles).toHaveLength(5);
       });
@@ -505,7 +505,7 @@ describe('App Component', () => {
       const projectButton = screen.getByRole('button', { name: 'Project' });
 
       expect(searchInput).toHaveValue('strategy');
-      expect(projectButton).toHaveClass('bg-indigo-600');
+      expect(projectButton).toHaveClass('bg-primary');
     });
 
     it('should clear URL params when clear button is clicked', async () => {
@@ -606,7 +606,7 @@ describe('App Component', () => {
       await user.click(businessButton);
 
       await waitFor(() => {
-        expect(screen.getByText(/no resources match your filters/i)).toBeInTheDocument();
+        expect(screen.getByText(/no resources match your current filters/i)).toBeInTheDocument();
       });
     });
   });
@@ -679,6 +679,133 @@ describe('App Component', () => {
         expect(searchInput).toHaveValue('&');
         // App should still render without crashing
         expect(screen.getByText('Project Delivery Toolkit')).toBeInTheDocument();
+      });
+    });
+  });
+
+  describe('Export Button', () => {
+    it('export button is visible when results exist', () => {
+      render(<App />);
+      const exportBtn = screen.getByTitle('Export filtered results as CSV');
+      expect(exportBtn).toBeInTheDocument();
+    });
+
+    it('export button is not rendered when there are 0 results', async () => {
+      const user = userEvent.setup();
+      render(<App />);
+
+      const searchInput = screen.getByPlaceholderText(/search title, description, tags/i);
+      await user.type(searchInput, 'zzznomatch');
+
+      await waitFor(() => {
+        expect(screen.queryByTitle('Export filtered results as CSV')).not.toBeInTheDocument();
+      });
+    });
+  });
+
+  describe('Copy Link Button', () => {
+    it('copy link button renders in the results header', () => {
+      render(<App />);
+      const copyBtn = screen.getByTitle('Copy shareable link');
+      expect(copyBtn).toBeInTheDocument();
+    });
+
+    it('shows checkmark feedback after clicking copy link', async () => {
+      const user = userEvent.setup();
+      Object.defineProperty(navigator, 'clipboard', {
+        value: { writeText: vi.fn().mockResolvedValue(undefined) },
+        writable: true,
+        configurable: true,
+      });
+      render(<App />);
+
+      const copyBtn = screen.getByTitle('Copy shareable link');
+      await user.click(copyBtn);
+
+      await waitFor(() => {
+        expect(screen.getByTitle('Link copied!')).toBeInTheDocument();
+      });
+    });
+  });
+
+  describe('Suggest a Resource Link', () => {
+    it('suggest a resource link appears in results panel', () => {
+      render(<App />);
+      const links = screen.getAllByText('Suggest a resource');
+      expect(links.length).toBeGreaterThan(0);
+    });
+  });
+
+  describe('Coverage Indicator', () => {
+    it('shows low-coverage message when filtered results < 5 and a non-search filter is active', async () => {
+      const user = userEvent.setup();
+      render(<App />);
+
+      // Select "Project" persona - returns 2 resources (resource-1, resource-3)
+      const projectButton = screen.getByRole('button', { name: 'Project' });
+      await user.click(projectButton);
+
+      await waitFor(() => {
+        expect(screen.getByText(/This area has limited coverage/i)).toBeInTheDocument();
+      });
+    });
+
+    it('does not show low-coverage message when more than 4 results', () => {
+      render(<App />);
+      // 5 resources, no filters - no coverage message
+      expect(screen.queryByText(/This area has limited coverage/i)).not.toBeInTheDocument();
+    });
+
+    it('does not show low-coverage message when only text search is active', async () => {
+      const user = userEvent.setup();
+      render(<App />);
+
+      const searchInput = screen.getByPlaceholderText(/search title, description, tags/i);
+      await user.type(searchInput, 'strategy');
+
+      await waitFor(() => {
+        // Should have 1 result but no active non-search filter
+        const articles = screen.getAllByRole('article');
+        expect(articles).toHaveLength(1);
+        expect(screen.queryByText(/This area has limited coverage/i)).not.toBeInTheDocument();
+      });
+    });
+  });
+
+  describe('Empty State', () => {
+    it('shows suggest a resource link in empty state', async () => {
+      const user = userEvent.setup();
+      render(<App />);
+
+      const searchInput = screen.getByPlaceholderText(/search title, description, tags/i);
+      await user.type(searchInput, 'zzznomatch');
+
+      await waitFor(() => {
+        expect(screen.getByText(/no resources match your current filters/i)).toBeInTheDocument();
+        // The suggest link in empty state
+        const suggestLinks = screen.getAllByRole('link', { name: /suggest a resource/i });
+        expect(suggestLinks.length).toBeGreaterThan(0);
+      });
+    });
+
+    it('clears all filters when "Clear all filters" is clicked in empty state', async () => {
+      const user = userEvent.setup();
+      render(<App />);
+
+      const searchInput = screen.getByPlaceholderText(/search title, description, tags/i);
+      await user.type(searchInput, 'zzznomatch');
+
+      await waitFor(() => {
+        expect(screen.getByText(/no resources match your current filters/i)).toBeInTheDocument();
+      });
+
+      const clearAllBtn = screen.getByRole('button', { name: /clear all filters/i });
+      await user.click(clearAllBtn);
+
+      await waitFor(() => {
+        expect(screen.queryByText(/no resources match your current filters/i)).not.toBeInTheDocument();
+        const articles = screen.getAllByRole('article');
+        expect(articles).toHaveLength(5);
       });
     });
   });
