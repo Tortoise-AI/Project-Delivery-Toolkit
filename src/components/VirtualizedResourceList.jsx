@@ -33,6 +33,9 @@ const ResourceItemComponent = React.memo(({ resource, BARRIERS, THEME_COLORS, li
           </div>
         )}
       </div>
+      {resource.publisher && (
+        <p className="text-xs text-slate-400 mt-0.5">{resource.publisher}</p>
+      )}
       <p className="text-xs text-slate-600 mt-1 line-clamp-3">{resource.description}</p>
       <div className="mt-2 flex flex-wrap gap-1 text-xs">
         {(resource.personas || []).map((p) => (

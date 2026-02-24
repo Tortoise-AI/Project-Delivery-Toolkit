@@ -51,6 +51,9 @@ const ResourceItem = React.memo(({ resource, BARRIERS, THEME_COLORS, lighten, ge
           </div>
         )}
       </div>
+      {resource.publisher && (
+        <p className="text-xs text-secondary/60 mt-0.5">{resource.publisher}</p>
+      )}
       <p className="text-xs text-secondary/80 mt-1 line-clamp-3">{resource.description}</p>
       <div className="mt-2 flex flex-wrap gap-1 text-xs">
         {(resource.personas || []).map((p) => <span key={p} className="inline-flex items-center rounded-full px-2.5 py-0.5 bg-slate-100 text-slate-700">{p}</span>)}
@@ -294,7 +297,7 @@ export default function App() {
   // Memoize to prevent cascading recalculations
   const baseFilter = React.useCallback((r) => {
     const q = search.trim().toLowerCase();
-    const matchesText = !q || r.title.toLowerCase().includes(q) || r.description.toLowerCase().includes(q) || (r.tags || []).some((t) => t.toLowerCase().includes(q));
+    const matchesText = !q || r.title.toLowerCase().includes(q) || r.description.toLowerCase().includes(q) || (r.publisher || '').toLowerCase().includes(q) ||(r.tags || []).some((t) => t.toLowerCase().includes(q));
     const matchesPersonas = !selectedPersonas.length || r.personas.some((p) => selectedPersonas.includes(p));
     // Check if resource has any ARMM level within the selected range
     const [minLevel, maxLevel] = armmRange;
@@ -705,7 +708,7 @@ export default function App() {
     const [minLevel, maxLevel] = armmRange;
     const isDefaultRange = minLevel === 0 && maxLevel === 4;
     const results = DATA_RESOURCES.filter((r) => {
-      const matchesText = !q || r.title.toLowerCase().includes(q) || r.description.toLowerCase().includes(q) || (r.tags || []).some((t) => t.toLowerCase().includes(q));
+      const matchesText = !q || r.title.toLowerCase().includes(q) || r.description.toLowerCase().includes(q) || (r.publisher || '').toLowerCase().includes(q) ||(r.tags || []).some((t) => t.toLowerCase().includes(q));
       const matchesPersonas = !selectedPersonas.length || r.personas.some((p) => selectedPersonas.includes(p));
       const matchesTheme = !selectedTheme || r.barrier_category === selectedTheme;
       const matchesBarrier = !selectedBarrier || r.barriers.includes(selectedBarrier);

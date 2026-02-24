@@ -1,3 +1,7 @@
+# Generated link-check reports
+broken-links.json
+broken-links.csv
+
 # Logs
 logs
 *.log
