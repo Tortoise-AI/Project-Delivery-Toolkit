@@ -7,7 +7,7 @@
     "dev": "vite",
     "lint": "eslint .",
     "preview": "vite preview",
-    "prebuild": "node scripts/build-data.mjs && node scripts/check-links.mjs",
+    "prebuild": "node scripts/build-data.mjs",
     "build": "node scripts/build-data.mjs && node scripts/check-links.mjs && vite build",
     "check-links": "node scripts/check-links.mjs",
     "test": "vitest",
