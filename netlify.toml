@@ -1,0 +1,2 @@
+[build]
+  command = "npx playwright install chromium && npm run build"
